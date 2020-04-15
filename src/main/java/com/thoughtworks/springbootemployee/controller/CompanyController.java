@@ -59,11 +59,14 @@ public class CompanyController {
         }
         return new ResponseEntity<>(this.companies.subList((page - 1) * pageSize, page * pageSize), HttpStatus.OK);
     }
+
     @PostMapping
-    public Company addCompanies(@RequestBody Company company){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Company addCompanies(@RequestBody Company company) {
         this.companies.add(company);
         return company;
     }
+
     @PutMapping
     public ResponseEntity<Object> updateCompanies(@RequestBody Company newCompany) {
         Company targetCompany = this.companies.stream()
@@ -75,6 +78,19 @@ public class CompanyController {
         }
         companies.set(companies.indexOf(targetCompany), newCompany);
         return new ResponseEntity<>(newCompany, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{companyID}")
+    public ResponseEntity<Object> deleteCompanies(@PathVariable int companyID) {
+        Company targetCompany = this.companies.stream()
+                .filter(company -> company.getId() == companyID)
+                .findFirst()
+                .orElse(null);
+        if (targetCompany == null) {
+            return new ResponseEntity<>("Error, company does not exist", HttpStatus.BAD_REQUEST);
+        }
+        companies.remove(targetCompany);
+        return new ResponseEntity<>("Remove company with id " + companyID + " successfully", HttpStatus.OK);
     }
 
 }
