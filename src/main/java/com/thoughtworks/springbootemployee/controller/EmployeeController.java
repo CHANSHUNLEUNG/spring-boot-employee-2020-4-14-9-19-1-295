@@ -25,7 +25,7 @@ public class EmployeeController {
 
     @GetMapping
     public List<Employee> getEmployees() {
-        return employees;
+        return this.employees;
     }
 
     @PostMapping
