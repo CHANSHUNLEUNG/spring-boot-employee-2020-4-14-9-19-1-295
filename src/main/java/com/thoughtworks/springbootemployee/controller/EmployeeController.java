@@ -19,6 +19,11 @@ public class EmployeeController {
         employees.add(new Employee(4,"leo4",18, "male"));
         return employees;
     }
-
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee createEmployees(@RequestBody Employee newEmployee){
+        employees.add(newEmployee);
+        return newEmployee;
+    }
 
 }
