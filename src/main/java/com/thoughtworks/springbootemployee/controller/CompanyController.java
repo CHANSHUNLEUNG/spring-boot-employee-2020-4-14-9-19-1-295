@@ -64,5 +64,17 @@ public class CompanyController {
         this.companies.add(company);
         return company;
     }
+    @PutMapping
+    public ResponseEntity<Object> updateCompanies(@RequestBody Company newCompany) {
+        Company targetCompany = this.companies.stream()
+                .filter(company -> company.getId() == newCompany.getId())
+                .findFirst()
+                .orElse(null);
+        if (targetCompany == null) {
+            return new ResponseEntity<>("Error, company does not exist", HttpStatus.BAD_REQUEST);
+        }
+        companies.set(companies.indexOf(targetCompany), newCompany);
+        return new ResponseEntity<>(newCompany, HttpStatus.OK);
+    }
 
 }

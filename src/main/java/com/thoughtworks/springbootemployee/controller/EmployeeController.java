@@ -42,7 +42,7 @@ public class EmployeeController {
                 .findFirst()
                 .orElse(null);
         if (targetEmployee == null) {
-            return new ResponseEntity<>("Error,Employee does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error, employee does not exist", HttpStatus.BAD_REQUEST);
         }
         employees.set(employees.indexOf(targetEmployee), newEmployee);
         return new ResponseEntity<>(newEmployee, HttpStatus.OK);
@@ -55,7 +55,7 @@ public class EmployeeController {
                 .findFirst()
                 .orElse(null);
         if (targetEmployee == null) {
-            return new ResponseEntity<>("Error,Employee does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error, employee does not exist", HttpStatus.BAD_REQUEST);
         }
         employees.remove(targetEmployee);
         return new ResponseEntity<>("Remove employee with id " + employeeID + " successfully", HttpStatus.OK);
@@ -68,7 +68,7 @@ public class EmployeeController {
                 .findFirst()
                 .orElse(null);
         if (targetEmployee == null) {
-            return new ResponseEntity<>("Error,Employee does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error, employee does not exist", HttpStatus.BAD_REQUEST);
         }
         employees.remove(targetEmployee);
         return new ResponseEntity<>(targetEmployee, HttpStatus.OK);
