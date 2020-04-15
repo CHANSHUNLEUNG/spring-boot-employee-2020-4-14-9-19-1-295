@@ -2,6 +2,8 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,6 +42,19 @@ public class CompanyController {
                 .findFirst()
                 .orElse(null);
         return returnCompany.getEmployees();
+    }
+
+    @GetMapping(params = {"page", "pageSize"})
+    public ResponseEntity<Object> getCompanies
+            (@RequestParam(value = "page") int page,@RequestParam(value = "pageSize") int pageSize){
+        int startIndex = (page - 1) * pageSize;
+        int endIndex = page * pageSize;
+        if (this.companies.size() < startIndex) {
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        } else if (this.companies.size() > startIndex && this.companies.size() < endIndex) {
+            return new ResponseEntity<>(this.companies.subList(startIndex, companies.size()), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(this.companies.subList((page - 1) * pageSize, page * pageSize), HttpStatus.OK);
     }
 
 }
