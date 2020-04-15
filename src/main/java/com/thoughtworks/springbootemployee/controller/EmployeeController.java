@@ -82,7 +82,7 @@ public class EmployeeController {
         return new ResponseEntity<>(returnEmployees, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = {"page", "pageSize"})
+    @GetMapping(params = {"page", "pageSize"})
     public ResponseEntity<Object> getEmployees
             (@RequestParam(value = "page") int page, @RequestParam(value = "pageSize") int pageSize) {
         int startIndex = (page - 1) * pageSize;
