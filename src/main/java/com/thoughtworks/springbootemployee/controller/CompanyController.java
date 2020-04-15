@@ -14,10 +14,10 @@ public class CompanyController {
     private List<Company> companies = new ArrayList<>();
 
     public CompanyController() {
-        this.companies.add(new Company("company1",100));
-        this.companies.add(new Company("company2",100));
-        this.companies.add(new Company("company3",100));
-        this.companies.add(new Company("company4",100));
+        this.companies.add(new Company(1,"company1",100));
+        this.companies.add(new Company(2,"company2",100));
+        this.companies.add(new Company(3,"company3",100));
+        this.companies.add(new Company(4,"company4",100));
     }
     @GetMapping
     public List<Company> getCompanies(){
