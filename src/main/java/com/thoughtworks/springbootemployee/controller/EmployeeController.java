@@ -58,4 +58,17 @@ public class EmployeeController {
         return new ResponseEntity<>("Remove employee with id " + employeeID + " successfully", HttpStatus.OK);
     }
 
+    @GetMapping(path = "/{employeeID}")
+    public ResponseEntity<Object> getEmployees(@PathVariable int employeeID) {
+        Employee targetEmployee = this.employees.stream()
+                .filter(employee -> employee.getId() == employeeID)
+                .findFirst()
+                .orElse(null);
+        if (targetEmployee == null) {
+            return new ResponseEntity<>("Error,Employee does not exist", HttpStatus.BAD_REQUEST);
+        }
+        employees.remove(targetEmployee);
+        return new ResponseEntity<>(targetEmployee, HttpStatus.OK);
+    }
+
 }
