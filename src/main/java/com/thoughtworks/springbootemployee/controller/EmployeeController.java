@@ -13,13 +13,6 @@ import java.util.List;
 public class EmployeeController {
     private List<Employee> employees = new ArrayList<>();
 
-    public EmployeeController() {
-        employees.add(new Employee(1, "leo1", 18, "male"));
-        employees.add(new Employee(2, "leo2", 18, "male"));
-        employees.add(new Employee(3, "leo3", 18, "male"));
-        employees.add(new Employee(4, "leo4", 18, "male"));
-    }
-
     @GetMapping
     public List<Employee> getEmployees() {
         return employees;
