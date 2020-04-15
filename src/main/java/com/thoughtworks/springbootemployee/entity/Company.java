@@ -6,13 +6,12 @@ import java.util.List;
 public class Company {
     private int id;
     private String companyName;
-    private int employeesNumber;
+    private int employeesNumber = 0;
     private List<Employee> employees;
 
-    public Company(int id, String companyName, int employeesNumber) {
+    public Company(int id, String companyName) {
         this.id = id;
         this.companyName = companyName;
-        this.employeesNumber = employeesNumber;
         this.employees = new ArrayList<>();
     }
 
