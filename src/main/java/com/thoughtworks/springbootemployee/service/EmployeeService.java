@@ -31,4 +31,11 @@ public class EmployeeService {
             employeeRepository.update(existingEmployee, newEmployee);
         }
     }
+
+    public void deleteEmployees(int employeeId) {
+        Employee existingEmployee = employeeRepository.findByID(employeeId);
+        if(existingEmployee != null) {
+            employeeRepository.delete(existingEmployee);
+        }
+    }
 }

@@ -41,17 +41,10 @@ public class EmployeeController {
         return new ResponseEntity<>(newEmployee, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{employeeID}")
-    public ResponseEntity<Object> deleteEmployees(@PathVariable int employeeID) {
-        Employee targetEmployee = this.employees.stream()
-                .filter(employee -> employee.getId() == employeeID)
-                .findFirst()
-                .orElse(null);
-        if (targetEmployee == null) {
-            return new ResponseEntity<>("Error, employee does not exist", HttpStatus.BAD_REQUEST);
-        }
-        employees.remove(targetEmployee);
-        return new ResponseEntity<>("Remove employee with id " + employeeID + " successfully", HttpStatus.OK);
+    @DeleteMapping(path = "/{employeeId}")
+    public ResponseEntity<Object> deleteEmployees(@PathVariable int employeeId) {
+        employeeService.deleteEmployees(employeeId);
+        return new ResponseEntity<>("Remove employee with id " + employeeId + " successfully", HttpStatus.OK);
     }
 
     @GetMapping(path = "/{employeeID}")

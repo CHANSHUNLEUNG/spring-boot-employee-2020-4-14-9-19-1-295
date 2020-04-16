@@ -33,4 +33,8 @@ public class EmployeeRepository {
     public void update(Employee existingEmployee, Employee newEmployee) {
         this.employees.set(employees.indexOf(existingEmployee), newEmployee);
     }
+
+    public void delete(Employee existingEmployee) {
+        this.employees.remove(existingEmployee);
+    }
 }
