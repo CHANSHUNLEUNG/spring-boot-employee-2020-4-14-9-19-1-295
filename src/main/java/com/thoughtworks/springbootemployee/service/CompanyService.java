@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class CompanyService {
     @Autowired
-    public CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
 
     public List<Company> getCompanies() {
@@ -47,7 +47,7 @@ public class CompanyService {
 
     public boolean updateCompanies(int companyId, Company newCompany) {
         Company targetCompany = companyRepository.findById(companyId);
-        if(targetCompany == null){
+        if (targetCompany == null) {
             return false;
         }
         companyRepository.updateCompany(targetCompany, newCompany);
@@ -56,7 +56,7 @@ public class CompanyService {
 
     public boolean deleteCompanies(int companyId) {
         Company targetCompany = companyRepository.findById(companyId);
-        if(targetCompany == null){
+        if (targetCompany == null) {
             return false;
         }
         companyRepository.delete(targetCompany);

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,15 +15,15 @@ import java.util.List;
 public class CompanyController {
 
     @Autowired
-    public CompanyService companyService;
+    private CompanyService companyService;
 
-    public void setCompanies(List<Company> companies) {
+    void setCompanies(List<Company> companies) {
         companyService.setCompanies(companies);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Company> getCompanies() {
+    List<Company> getCompanies() {
         return companyService.getCompanies();
     }
 
@@ -41,7 +40,7 @@ public class CompanyController {
     @GetMapping(params = {"page", "pageSize"})
     public ResponseEntity<Object> getCompanies
             (@RequestParam(value = "page") int page, @RequestParam(value = "pageSize") int pageSize) {
-        return new ResponseEntity<>(companyService.getCompaniesWithPagination(page, pageSize),HttpStatus.OK);
+        return new ResponseEntity<>(companyService.getCompaniesWithPagination(page, pageSize), HttpStatus.OK);
     }
 
     @PostMapping
@@ -53,8 +52,8 @@ public class CompanyController {
 
     @PutMapping(path = "/{companyId}")
     public ResponseEntity<Object> updateCompanies(@PathVariable int companyId, @RequestBody Company newCompany) {
-        Boolean isUpdate = companyService.updateCompanies(companyId,newCompany);
-        if(!isUpdate){
+        boolean isUpdate = companyService.updateCompanies(companyId, newCompany);
+        if (!isUpdate) {
             return new ResponseEntity<>("Error, company is not exist.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(newCompany, HttpStatus.OK);
@@ -62,8 +61,8 @@ public class CompanyController {
 
     @DeleteMapping(path = "/{companyId}")
     public ResponseEntity<Object> deleteCompanies(@PathVariable int companyId) {
-        Boolean isDelete = companyService.deleteCompanies(companyId);
-        if(!isDelete){
+        boolean isDelete = companyService.deleteCompanies(companyId);
+        if (!isDelete) {
             return new ResponseEntity<>("Error, company is not exist", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Remove company with id " + companyId + " successfully", HttpStatus.OK);

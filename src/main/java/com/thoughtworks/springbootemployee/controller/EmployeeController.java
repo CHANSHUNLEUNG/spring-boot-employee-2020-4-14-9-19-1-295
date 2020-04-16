@@ -7,23 +7,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
     @Autowired
-    public EmployeeService employeeService;
-    private List<Employee> employees = new ArrayList<>();
+    private EmployeeService employeeService;
 
-    public void setEmployees(List<Employee> employees) {
+    void setEmployees(List<Employee> employees) {
         employeeService.setEmployees(employees);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> getEmployees() {
+    List<Employee> getEmployees() {
         return employeeService.getEmployees();
     }
 
@@ -36,7 +34,7 @@ public class EmployeeController {
     @PutMapping(path = "/{employeeId}")
     public ResponseEntity<Object> updateEmployees(@PathVariable int employeeId, @RequestBody Employee newEmployee) {
         boolean isUpdate = employeeService.updateEmployees(employeeId, newEmployee);
-        if(!isUpdate){
+        if (!isUpdate) {
             return new ResponseEntity<>("Error, employee is not exist.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(newEmployee, HttpStatus.OK);
@@ -45,7 +43,7 @@ public class EmployeeController {
     @DeleteMapping(path = "/{employeeId}")
     public ResponseEntity<Object> deleteEmployees(@PathVariable int employeeId) {
         boolean isDelete = employeeService.deleteEmployees(employeeId);
-        if(!isDelete){
+        if (!isDelete) {
             return new ResponseEntity<>("Error, employee is not exist.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Remove employee with id " + employeeId + " successfully", HttpStatus.OK);

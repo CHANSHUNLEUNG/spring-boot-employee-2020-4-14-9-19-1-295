@@ -1,6 +1,5 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
@@ -76,7 +75,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void should_add_employee_successfully_when_given_an_employee() throws JsonProcessingException {
+    public void should_add_employee_successfully_when_given_an_employee() {
 
         Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000);
 
@@ -85,8 +84,6 @@ public class EmployeeControllerTest {
                 .when()
                 .post("/employees");
 
-        Employee employee = mvcResponse.getBody().as(Employee.class);
-
         Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
         Assert.assertEquals(4, this.employeeController.getEmployees().get(3).getId());
         Assert.assertEquals("leo4", this.employeeController.getEmployees().get(3).getName());
@@ -94,7 +91,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_delete_employee_successfully_when_given_an_employee() {
-        //when
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
                 .delete("/employees/2");

@@ -28,10 +28,10 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 public class CompanyControllerTest {
 
     @Autowired
-    public CompanyController companyController;
+    private CompanyController companyController;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         RestAssuredMockMvc.standaloneSetup(companyController);
 
         this.companyController.setCompanies(new ArrayList<>(Arrays.asList(
@@ -51,13 +51,6 @@ public class CompanyControllerTest {
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
                 .get("/companies");
-
-        List<Company> companies = mvcResponse.getBody().as(new TypeRef<List<Company>>() {
-            @Override
-            public Type getType() {
-                return super.getType();
-            }
-        });
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(3, this.companyController.getCompanies().size());
@@ -124,7 +117,6 @@ public class CompanyControllerTest {
                 .when()
                 .post("/companies");
 
-        Company company = mvcResponse.getBody().as(Company.class);
         Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
         Assert.assertEquals(4, this.companyController.getCompanies().size());
         Assert.assertEquals(4, this.companyController.getCompanies().get(3).getId());
