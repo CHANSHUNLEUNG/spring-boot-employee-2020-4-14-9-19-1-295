@@ -16,7 +16,10 @@ import org.springframework.cloud.contract.spec.internal.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
@@ -117,7 +120,7 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_all_male_employees_when_given_gender_is_male() {
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .params("gender","male")
+                .params("gender", "male")
                 .when()
                 .get("/employees");
 
@@ -135,9 +138,9 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_1_employee_when_get_employees_given_page_is_2_and_pageSize_is_2() {
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .params(new HashMap<String, Integer>(){{
-                    put("page",2);
-                    put("pageSize",2);
+                .params(new HashMap<String, Integer>() {{
+                    put("page", 2);
+                    put("pageSize", 2);
                 }})
                 .when()
                 .get("/employees");
@@ -148,6 +151,6 @@ public class EmployeeControllerTest {
             }
         });
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(1,employees.size());
+        Assert.assertEquals(1, employees.size());
     }
 }
