@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-    private List<Company> companies = new ArrayList<>();
 
     @Autowired
     public CompanyService companyService;
@@ -54,7 +53,10 @@ public class CompanyController {
 
     @PutMapping(path = "/{companyId}")
     public ResponseEntity<Object> updateCompanies(@PathVariable int companyId, @RequestBody Company newCompany) {
-        companyService.updateCompanies(companyId,newCompany);
+        Boolean isUpdate = companyService.updateCompanies(companyId,newCompany);
+        if(!isUpdate){
+            return new ResponseEntity<>("Error, company is not exist.", HttpStatus.OK);
+        }
         return new ResponseEntity<>(newCompany, HttpStatus.OK);
     }
 
