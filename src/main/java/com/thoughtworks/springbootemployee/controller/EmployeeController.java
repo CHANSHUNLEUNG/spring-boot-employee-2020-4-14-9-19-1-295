@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -65,14 +64,8 @@ public class EmployeeController {
     @GetMapping(params = {"page", "pageSize"})
     public ResponseEntity<Object> getEmployees
             (@RequestParam(value = "page") int page, @RequestParam(value = "pageSize") int pageSize) {
-        int startIndex = (page - 1) * pageSize;
-        int endIndex = page * pageSize;
-        if (this.employees.size() < startIndex) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        } else if (this.employees.size() > startIndex && this.employees.size() < endIndex) {
-            return new ResponseEntity<>(this.employees.subList(startIndex, employees.size()), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(this.employees.subList((page - 1) * pageSize, page * pageSize), HttpStatus.OK);
+        List<Employee> returnEmployees = employeeService.getEmployeesWithPagination(page, pageSize);
+        return new ResponseEntity<>(returnEmployees, HttpStatus.OK);
     }
 
 }
