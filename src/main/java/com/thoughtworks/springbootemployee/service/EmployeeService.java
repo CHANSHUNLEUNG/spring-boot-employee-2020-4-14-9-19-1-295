@@ -26,11 +26,13 @@ public class EmployeeService {
         return employeeRepository.save(newEmployee);
     }
 
-    public void updateEmployees(int employeeId, Employee newEmployee) {
+    public boolean updateEmployees(int employeeId, Employee newEmployee) {
         Employee existingEmployee = employeeRepository.findByID(employeeId);
-        if (existingEmployee != null) {
-            employeeRepository.update(existingEmployee, newEmployee);
+        if (existingEmployee == null) {
+            return false;
         }
+        employeeRepository.update(existingEmployee, newEmployee);
+        return true;
     }
 
     public void deleteEmployees(int employeeId) {
