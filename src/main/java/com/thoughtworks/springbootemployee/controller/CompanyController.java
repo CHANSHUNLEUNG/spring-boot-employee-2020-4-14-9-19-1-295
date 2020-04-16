@@ -14,6 +14,10 @@ import java.util.List;
 public class CompanyController {
     private List<Company> companies = new ArrayList<>();
 
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Company> getCompanies() {

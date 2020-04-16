@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.springbootemployee.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thoughtworks.springbootemployee.controller.EmployeeController;
