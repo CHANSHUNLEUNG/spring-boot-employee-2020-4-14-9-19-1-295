@@ -42,4 +42,8 @@ public class EmployeeService {
     public Employee getEmployeeById(int employeeID) {
         return employeeRepository.findByID(employeeID);
     }
+
+    public List<Employee> getEmployeeByGender(String gender) {
+        return employeeRepository.findByGender(gender);
+    }
 }

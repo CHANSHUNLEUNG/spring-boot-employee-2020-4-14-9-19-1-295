@@ -37,7 +37,7 @@ public class EmployeeController {
 
     @PutMapping(path = "/{employeeId}")
     public ResponseEntity<Object> updateEmployees(@PathVariable int employeeId, @RequestBody Employee newEmployee) {
-        employeeService.updateEmployees(employeeId,newEmployee);
+        employeeService.updateEmployees(employeeId, newEmployee);
         return new ResponseEntity<>(newEmployee, HttpStatus.OK);
     }
 
@@ -58,9 +58,7 @@ public class EmployeeController {
 
     @RequestMapping(method = RequestMethod.GET, params = {"gender"})
     public ResponseEntity<Object> getEmployees(@RequestParam(value = "gender") String gender) {
-        List<Employee> returnEmployees = this.employees.stream()
-                .filter(employee -> employee.getGender().equals(gender))
-                .collect(Collectors.toList());
+        List<Employee> returnEmployees = employeeService.getEmployeeByGender(gender);
         return new ResponseEntity<>(returnEmployees, HttpStatus.OK);
     }
 
