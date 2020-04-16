@@ -36,11 +36,7 @@ public class CompanyController {
 
     @GetMapping(path = "/{companyID}/employees")
     public List<Employee> getEmployeesInCompany(@PathVariable int companyID) {
-        Company returnCompany = this.companies.stream()
-                .filter(company -> company.getId() == companyID)
-                .findFirst()
-                .orElse(null);
-        return returnCompany.getEmployees();
+        return companyService.getEmployeesInCompany(companyID);
     }
 
     @GetMapping(params = {"page", "pageSize"})
