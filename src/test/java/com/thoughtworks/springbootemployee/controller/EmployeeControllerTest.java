@@ -35,7 +35,7 @@ public class EmployeeControllerTest {
 
         this.employeeController.setEmployees(new ArrayList<>(Arrays.asList(
                 new Employee(1, "leo1", 18, "male", 80000),
-                new Employee(2, "leo2", 18, "male", 80000),
+                new Employee(2, "leo2", 18, "female", 80000),
                 new Employee(3, "leo3", 18, "male", 80000)
         )));
     }
@@ -112,8 +112,24 @@ public class EmployeeControllerTest {
                 .when()
                 .put("/employees/1");
 
-
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(100000, this.employeeController.getEmployees().get(0).getSalary());
+    }
+
+    @Test
+    public void should_return_all_male_employees_when_given_gender_is_male() {
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .when()
+                .get("/employees?gender=male");
+
+        List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(2, employees.size());
+        Assert.assertEquals(3, employees.get(1).getId());
     }
 }
