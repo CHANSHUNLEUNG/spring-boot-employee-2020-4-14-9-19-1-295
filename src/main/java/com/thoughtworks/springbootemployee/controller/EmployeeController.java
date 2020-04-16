@@ -49,10 +49,7 @@ public class EmployeeController {
 
     @GetMapping(path = "/{employeeID}")
     public ResponseEntity<Object> getEmployees(@PathVariable int employeeID) {
-        Employee targetEmployee = this.employees.stream()
-                .filter(employee -> employee.getId() == employeeID)
-                .findFirst()
-                .orElse(null);
+        Employee targetEmployee = employeeService.getEmployeeById(employeeID);
         if (targetEmployee == null) {
             return new ResponseEntity<>("Error, employee does not exist", HttpStatus.BAD_REQUEST);
         }
