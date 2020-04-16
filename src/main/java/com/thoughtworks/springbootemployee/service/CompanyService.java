@@ -51,4 +51,12 @@ public class CompanyService {
             companyRepository.updateCompany(targetCompany, newCompany);
         }
     }
+
+    public void deleteCompanies(int companyId) {
+        Company targetCompany = companyRepository.findById(companyId);
+        if(targetCompany != null){
+            companyRepository.delete(targetCompany);
+        }
+
+    }
 }

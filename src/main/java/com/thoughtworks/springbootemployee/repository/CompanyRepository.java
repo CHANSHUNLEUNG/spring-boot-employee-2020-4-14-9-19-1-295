@@ -28,4 +28,8 @@ public class CompanyRepository {
     public void updateCompany(Company targetCompany, Company newCompany) {
         this.companies.set(this.companies.indexOf(targetCompany), newCompany);
     }
+
+    public void delete(Company targetCompany) {
+        this.companies.remove(targetCompany);
+    }
 }

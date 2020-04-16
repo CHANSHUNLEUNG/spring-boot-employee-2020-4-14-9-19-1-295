@@ -58,17 +58,10 @@ public class CompanyController {
         return new ResponseEntity<>(newCompany, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{companyID}")
-    public ResponseEntity<Object> deleteCompanies(@PathVariable int companyID) {
-        Company targetCompany = this.companies.stream()
-                .filter(company -> company.getId() == companyID)
-                .findFirst()
-                .orElse(null);
-        if (targetCompany == null) {
-            return new ResponseEntity<>("Error, company does not exist", HttpStatus.BAD_REQUEST);
-        }
-        companies.remove(targetCompany);
-        return new ResponseEntity<>("Remove company with id " + companyID + " successfully", HttpStatus.OK);
+    @DeleteMapping(path = "/{companyId}")
+    public ResponseEntity<Object> deleteCompanies(@PathVariable int companyId) {
+        companyService.deleteCompanies(companyId);
+        return new ResponseEntity<>("Remove company with id " + companyId + " successfully", HttpStatus.OK);
     }
 
 }
