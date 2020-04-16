@@ -62,7 +62,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void should_return_specified_employee() {
+    public void should_return_specified_employee_when_given_employeeID() {
         //when
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()

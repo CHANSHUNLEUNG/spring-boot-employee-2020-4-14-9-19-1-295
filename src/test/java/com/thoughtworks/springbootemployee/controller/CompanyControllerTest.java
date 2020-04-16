@@ -54,9 +54,21 @@ public class CompanyControllerTest {
         });
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(3,this.companyController.getCompanies().size());
-        Assert.assertEquals(2,this.companyController.getCompanies().get(1).getId());
-        Assert.assertEquals("leocompany2",this.companyController.getCompanies().get(1).getCompanyName());
+        Assert.assertEquals(3, this.companyController.getCompanies().size());
+        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId());
+        Assert.assertEquals("leocompany2", this.companyController.getCompanies().get(1).getName());
     }
 
+    @Test
+    public void should_return_specified_company_when_given_employeeID() {
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .when()
+                .get("/companies/2");
+
+        Company company = mvcResponse.getBody().as(Company.class);
+
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(2, company.getId());
+        Assert.assertEquals("leocompany2", company.getName());
+    }
 }

@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Company {
     private int id;
-    private String companyName;
+    private String name;
     private int employeesNumber;
     private List<Employee> employees;
 
     public Company() {
     }
 
-    public Company(int id, String companyName) {
+    public Company(int id, String name) {
         this.id = id;
-        this.companyName = companyName;
+        this.name = name;
         this.employees = new ArrayList<>();
     }
 
@@ -26,12 +26,12 @@ public class Company {
         this.id = id;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getName() {
+        return name;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getEmployeesNumber() {
