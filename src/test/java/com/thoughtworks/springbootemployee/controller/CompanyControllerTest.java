@@ -134,14 +134,26 @@ public class CompanyControllerTest {
     @Test
     public void should_update_company_successfully_when_given_existing_company() {
         Company newCompany = new Company(2, "leocompany20");
+        int existingId = 2;
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .body(newCompany)
                 .when()
-                .put("/companies/2");
+                .put("/companies/" + existingId);
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId());
         Assert.assertEquals("leocompany20", this.companyController.getCompanies().get(1).getName());
+    }
+
+    @Test
+    public void should_delete_company_successfully_when_given_existing_id() {
+        int existingId = 2;
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .when()
+                .delete("/companies/" + existingId);
+
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(2, this.companyController.getCompanies().size());
     }
 }
