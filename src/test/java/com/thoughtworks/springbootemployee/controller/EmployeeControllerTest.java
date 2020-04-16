@@ -133,7 +133,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void should_return_one_employee_when_given_page_is_2_and_pageSize_is_2() {
+    public void should_return_1_employee_when_get_employees_given_page_is_2_and_pageSize_is_2() {
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .params(new HashMap<String, Integer>(){{
                     put("page",2);

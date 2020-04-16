@@ -13,19 +13,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-    private List<Employee> employees = new ArrayList<>();
-
     @Autowired
     public EmployeeService employeeService;
-
-    public void setEmployees(List<Employee> employees) {
-        employeeService.setEmployees(employees);
-    }
+    private List<Employee> employees = new ArrayList<>();
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Employee> getEmployees() {
         return employeeService.getEmployees();
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        employeeService.setEmployees(employees);
     }
 
     @PostMapping

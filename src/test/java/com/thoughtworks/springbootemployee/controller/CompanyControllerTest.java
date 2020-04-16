@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
@@ -32,7 +33,6 @@ public class CompanyControllerTest {
     @Before
     public void setUp() throws Exception {
         RestAssuredMockMvc.standaloneSetup(companyController);
-        ;
 
         this.companyController.setCompanies(new ArrayList<>(Arrays.asList(
                 new Company(1, "leocompany1"),
@@ -94,5 +94,24 @@ public class CompanyControllerTest {
         Assert.assertEquals(3, employees.size());
         Assert.assertEquals(1, employees.get(0).getId());
         Assert.assertEquals("leo1", employees.get(0).getName());
+    }
+
+    @Test
+    public void should_return_1_company_when_get_companies_given_page_is_2_and_pageSize_is_2() {
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .params(new HashMap<String, Integer>() {{
+                    put("page", 2);
+                    put("pageSize", 2);
+                }})
+                .when()
+                .get("/companies");
+        List<Company> Companies = mvcResponse.getBody().as(new TypeRef<List<Company>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(1,Companies.size());
     }
 }
