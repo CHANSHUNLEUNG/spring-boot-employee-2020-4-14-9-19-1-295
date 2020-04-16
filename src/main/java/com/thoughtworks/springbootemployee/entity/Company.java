@@ -6,7 +6,7 @@ import java.util.List;
 public class Company {
     private int id;
     private String companyName;
-    private int employeesNumber = 0;
+    private int employeesNumber;
     private List<Employee> employees;
 
     public Company(int id, String companyName) {

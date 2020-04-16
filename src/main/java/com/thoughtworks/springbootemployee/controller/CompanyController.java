@@ -15,6 +15,7 @@ public class CompanyController {
     private List<Company> companies = new ArrayList<>();
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Company> getCompanies() {
         return this.companies;
     }

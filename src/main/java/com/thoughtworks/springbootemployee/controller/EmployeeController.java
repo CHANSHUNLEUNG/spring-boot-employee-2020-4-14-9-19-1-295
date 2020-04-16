@@ -14,16 +14,12 @@ import java.util.stream.Collectors;
 public class EmployeeController {
     private List<Employee> employees = new ArrayList<>();
 
-    public EmployeeController(List<Employee> employees) {
-        this.employees.add(new Employee(1, "leo1", 18, "male", 80000));
-        this.employees.add(new Employee(2, "leo2", 18, "male", 80000));
-        this.employees.add(new Employee(3, "leo3", 18, "male", 80000));
-        this.employees.add(new Employee(4, "leo4", 18, "male", 80000));
-        this.employees.add(new Employee(5, "leo5", 18, "male", 80000));
-        this.employees.add(new Employee(6, "leo6", 18, "male", 80000));
+    public void addEmployee(Employee employee) {
+        this.employees.add(employee);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Employee> getEmployees() {
         return this.employees;
     }
@@ -70,7 +66,6 @@ public class EmployeeController {
         if (targetEmployee == null) {
             return new ResponseEntity<>("Error, employee does not exist", HttpStatus.BAD_REQUEST);
         }
-        employees.remove(targetEmployee);
         return new ResponseEntity<>(targetEmployee, HttpStatus.OK);
     }
 
@@ -93,8 +88,6 @@ public class EmployeeController {
             return new ResponseEntity<>(this.employees.subList(startIndex, employees.size()), HttpStatus.OK);
         }
         return new ResponseEntity<>(this.employees.subList((page - 1) * pageSize, page * pageSize), HttpStatus.OK);
-
     }
-
 
 }
