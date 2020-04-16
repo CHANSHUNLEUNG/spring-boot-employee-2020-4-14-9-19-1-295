@@ -103,5 +103,18 @@ public class EmployeeControllerTest {
         Assert.assertEquals(2, this.employeeController.getEmployees().size());
     }
 
+    @Test
+    public void should_update_employee_successfully_when_given_existing_employee() {
+        //when
+        Employee employee = new Employee(1, "leo1", 18, "male", 100000);
 
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .body(employee)
+                .when()
+                .put("/employees/1");
+
+
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(100000, this.employeeController.getEmployees().get(0).getSalary());
+    }
 }
