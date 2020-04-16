@@ -16,9 +16,7 @@ import org.springframework.cloud.contract.spec.internal.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
@@ -119,8 +117,9 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_all_male_employees_when_given_gender_is_male() {
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .params("gender","male")
                 .when()
-                .get("/employees?gender=male");
+                .get("/employees");
 
         List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
             @Override
@@ -131,5 +130,24 @@ public class EmployeeControllerTest {
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(2, employees.size());
         Assert.assertEquals(3, employees.get(1).getId());
+    }
+
+    @Test
+    public void should_return_one_employee_when_given_page_is_2_and_pageSize_is_2() {
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .params(new HashMap<String, Integer>(){{
+                    put("page",2);
+                    put("pageSize",2);
+                }})
+                .when()
+                .get("/employees");
+        List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(1,employees.size());
     }
 }
