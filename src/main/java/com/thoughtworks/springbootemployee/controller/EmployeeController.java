@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 public class EmployeeController {
     private List<Employee> employees = new ArrayList<>();
 
-    public void addEmployee(Employee employee) {
-        this.employees.add(employee);
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     @GetMapping
@@ -31,10 +31,10 @@ public class EmployeeController {
         return newEmployee;
     }
 
-    @PutMapping
-    public ResponseEntity<Object> updateEmployees(@RequestBody Employee newEmployee) {
+    @PutMapping(path = "/{employeeID}")
+    public ResponseEntity<Object> updateEmployees(@PathVariable int employeeID, @RequestBody Employee newEmployee) {
         Employee targetEmployee = this.employees.stream()
-                .filter(employee -> employee.getId() == newEmployee.getId())
+                .filter(employee -> employee.getId() == employeeID)
                 .findFirst()
                 .orElse(null);
         if (targetEmployee == null) {
@@ -45,7 +45,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(path = "/{employeeID}")
-    public ResponseEntity<Object> updateEmployees(@PathVariable int employeeID) {
+    public ResponseEntity<Object> deleteEmployees(@PathVariable int employeeID) {
         Employee targetEmployee = this.employees.stream()
                 .filter(employee -> employee.getId() == employeeID)
                 .findFirst()
