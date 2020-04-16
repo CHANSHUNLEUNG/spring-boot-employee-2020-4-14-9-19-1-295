@@ -6,6 +6,7 @@ import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,5 +30,18 @@ public class CompanyService {
     public List<Employee> getEmployeesInCompany(int companyID) {
         Company targetCompany = companyRepository.findById(companyID);
         return targetCompany.getEmployees();
+    }
+
+    public List<Company> getCompaniesWithPagination(int page, int pageSize) {
+        int startIndex = (page - 1) * pageSize;
+        int endIndex = page * pageSize;
+        List<Company> companies = companyRepository.findAll();
+
+        if (companies.size() < startIndex) {
+            return new ArrayList<>();
+        } else if (companies.size() > startIndex && companies.size() < endIndex) {
+            return companies.subList(startIndex, companies.size());
+        }
+        return companies.subList((page - 1) * pageSize, page * pageSize);
     }
 }
