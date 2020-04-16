@@ -37,14 +37,17 @@ public class EmployeeController {
     public ResponseEntity<Object> updateEmployees(@PathVariable int employeeId, @RequestBody Employee newEmployee) {
         boolean isUpdate = employeeService.updateEmployees(employeeId, newEmployee);
         if(!isUpdate){
-            return new ResponseEntity<>("Error, employee is not exist.", HttpStatus.OK);
+            return new ResponseEntity<>("Error, employee is not exist.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(newEmployee, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{employeeId}")
     public ResponseEntity<Object> deleteEmployees(@PathVariable int employeeId) {
-        employeeService.deleteEmployees(employeeId);
+        boolean isDelete = employeeService.deleteEmployees(employeeId);
+        if(!isDelete){
+            return new ResponseEntity<>("Error, employee is not exist.", HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>("Remove employee with id " + employeeId + " successfully", HttpStatus.OK);
     }
 

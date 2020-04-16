@@ -55,7 +55,7 @@ public class CompanyController {
     public ResponseEntity<Object> updateCompanies(@PathVariable int companyId, @RequestBody Company newCompany) {
         Boolean isUpdate = companyService.updateCompanies(companyId,newCompany);
         if(!isUpdate){
-            return new ResponseEntity<>("Error, company is not exist.", HttpStatus.OK);
+            return new ResponseEntity<>("Error, company is not exist.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(newCompany, HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class CompanyController {
     public ResponseEntity<Object> deleteCompanies(@PathVariable int companyId) {
         Boolean isDelete = companyService.deleteCompanies(companyId);
         if(!isDelete){
-            return new ResponseEntity<>("Error, company is not exist", HttpStatus.OK);
+            return new ResponseEntity<>("Error, company is not exist", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Remove company with id " + companyId + " successfully", HttpStatus.OK);
     }
