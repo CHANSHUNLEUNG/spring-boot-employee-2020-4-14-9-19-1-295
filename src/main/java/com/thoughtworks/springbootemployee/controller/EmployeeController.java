@@ -17,14 +17,14 @@ public class EmployeeController {
     public EmployeeService employeeService;
     private List<Employee> employees = new ArrayList<>();
 
+    public void setEmployees(List<Employee> employees) {
+        employeeService.setEmployees(employees);
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Employee> getEmployees() {
         return employeeService.getEmployees();
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        employeeService.setEmployees(employees);
     }
 
     @PostMapping
