@@ -35,16 +35,9 @@ public class EmployeeController {
         return employeeService.createEmployees(newEmployee);
     }
 
-    @PutMapping(path = "/{employeeID}")
-    public ResponseEntity<Object> updateEmployees(@PathVariable int employeeID, @RequestBody Employee newEmployee) {
-        Employee targetEmployee = this.employees.stream()
-                .filter(employee -> employee.getId() == employeeID)
-                .findFirst()
-                .orElse(null);
-        if (targetEmployee == null) {
-            return new ResponseEntity<>("Error, employee does not exist", HttpStatus.BAD_REQUEST);
-        }
-        employees.set(employees.indexOf(targetEmployee), newEmployee);
+    @PutMapping(path = "/{employeeId}")
+    public ResponseEntity<Object> updateEmployees(@PathVariable int employeeId, @RequestBody Employee newEmployee) {
+        employeeService.updateEmployees(employeeId,newEmployee);
         return new ResponseEntity<>(newEmployee, HttpStatus.OK);
     }
 

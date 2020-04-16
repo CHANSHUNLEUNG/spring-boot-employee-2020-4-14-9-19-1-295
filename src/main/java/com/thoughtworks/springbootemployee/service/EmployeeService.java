@@ -24,4 +24,11 @@ public class EmployeeService {
     public Employee createEmployees(Employee newEmployee) {
         return employeeRepository.save(newEmployee);
     }
+
+    public void updateEmployees(int employeeId, Employee newEmployee) {
+        Employee existingEmployee = employeeRepository.findByID(employeeId);
+        if (existingEmployee != null) {
+            employeeRepository.update(existingEmployee, newEmployee);
+        }
+    }
 }
