@@ -62,10 +62,10 @@ public class CompanyController {
         return company;
     }
 
-    @PutMapping
-    public ResponseEntity<Object> updateCompanies(@RequestBody Company newCompany) {
+    @PutMapping(path = "/{companyId}")
+    public ResponseEntity<Object> updateCompanies(@PathVariable int companyId, @RequestBody Company newCompany) {
         Company targetCompany = this.companies.stream()
-                .filter(company -> company.getId() == newCompany.getId())
+                .filter(company -> company.getId() == companyId)
                 .findFirst()
                 .orElse(null);
         if (targetCompany == null) {

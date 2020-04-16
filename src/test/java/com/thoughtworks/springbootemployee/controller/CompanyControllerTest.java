@@ -130,4 +130,18 @@ public class CompanyControllerTest {
         Assert.assertEquals(4, this.companyController.getCompanies().get(3).getId());
         Assert.assertEquals("leocompany4", this.companyController.getCompanies().get(3).getName());
     }
+
+    @Test
+    public void should_update_company_successfully_when_given_existing_company() {
+        Company newCompany = new Company(2, "leocompany20");
+
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .body(newCompany)
+                .when()
+                .put("/companies/2");
+
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId());
+        Assert.assertEquals("leocompany20", this.companyController.getCompanies().get(1).getName());
+    }
 }
