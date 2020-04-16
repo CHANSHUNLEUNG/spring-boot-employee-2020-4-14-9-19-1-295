@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.entity.Company;
+import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -38,6 +39,11 @@ public class CompanyControllerTest {
                 new Company(2, "leocompany2"),
                 new Company(3, "leocompany3")
         )));
+        this.companyController.getCompanies().get(1).setEmployees(new ArrayList<>(Arrays.asList(
+                new Employee(1, "leo1", 18, "male", 80000),
+                new Employee(2, "leo2", 18, "male", 80000),
+                new Employee(3, "leo3", 18, "male", 80000)
+        )));
     }
 
     @Test
@@ -60,7 +66,7 @@ public class CompanyControllerTest {
     }
 
     @Test
-    public void should_return_specified_company_when_given_employeeID() {
+    public void should_return_specified_company_when_given_employeeId() {
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
                 .get("/companies/2");
@@ -70,5 +76,23 @@ public class CompanyControllerTest {
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(2, company.getId());
         Assert.assertEquals("leocompany2", company.getName());
+    }
+
+    @Test
+    public void should_return_all_employees_of_a_company_when_given_companyId() {
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .when()
+                .get("/companies/2/employees");
+
+        List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
+        Assert.assertEquals(3, employees.size());
+        Assert.assertEquals(1, employees.get(0).getId());
+        Assert.assertEquals("leo1", employees.get(0).getName());
     }
 }

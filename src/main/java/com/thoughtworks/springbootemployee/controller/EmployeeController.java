@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.thoughtworks.springbootemployee.controller.EmployeeController;
-import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.model.Employee;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
