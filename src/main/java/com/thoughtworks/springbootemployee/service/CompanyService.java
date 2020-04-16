@@ -59,4 +59,8 @@ public class CompanyService {
         }
 
     }
+
+    public void addCompanies(Company company) {
+        companyRepository.save(company);
+    }
 }

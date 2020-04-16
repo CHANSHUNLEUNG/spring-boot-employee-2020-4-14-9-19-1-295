@@ -32,4 +32,8 @@ public class CompanyRepository {
     public void delete(Company targetCompany) {
         this.companies.remove(targetCompany);
     }
+
+    public void save(Company company) {
+        this.companies.add(company);
+    }
 }
