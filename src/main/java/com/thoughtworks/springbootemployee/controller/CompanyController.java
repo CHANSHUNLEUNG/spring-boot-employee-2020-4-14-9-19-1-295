@@ -54,14 +54,7 @@ public class CompanyController {
 
     @PutMapping(path = "/{companyId}")
     public ResponseEntity<Object> updateCompanies(@PathVariable int companyId, @RequestBody Company newCompany) {
-        Company targetCompany = this.companies.stream()
-                .filter(company -> company.getId() == companyId)
-                .findFirst()
-                .orElse(null);
-        if (targetCompany == null) {
-            return new ResponseEntity<>("Error, company does not exist", HttpStatus.BAD_REQUEST);
-        }
-        companies.set(companies.indexOf(targetCompany), newCompany);
+        companyService.updateCompanies(companyId,newCompany);
         return new ResponseEntity<>(newCompany, HttpStatus.OK);
     }
 

@@ -44,4 +44,11 @@ public class CompanyService {
         }
         return companies.subList((page - 1) * pageSize, page * pageSize);
     }
+
+    public void updateCompanies(int companyId, Company newCompany) {
+        Company targetCompany = companyRepository.findById(companyId);
+        if(targetCompany != null){
+            companyRepository.updateCompany(targetCompany, newCompany);
+        }
+    }
 }

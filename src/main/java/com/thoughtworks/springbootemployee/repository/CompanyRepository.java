@@ -24,4 +24,8 @@ public class CompanyRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public void updateCompany(Company targetCompany, Company newCompany) {
+        this.companies.set(this.companies.indexOf(targetCompany), newCompany);
+    }
 }
