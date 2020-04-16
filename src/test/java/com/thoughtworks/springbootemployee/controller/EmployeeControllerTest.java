@@ -40,7 +40,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_all_employees_successfully() {
-        //when
+
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
                 .get("/employees");
@@ -51,7 +51,7 @@ public class EmployeeControllerTest {
                 return super.getType();
             }
         });
-        //then
+
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(3, employees.size());
         Assert.assertEquals(2, employees.get(1).getId());
@@ -60,7 +60,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_specified_employee_when_given_employeeID() {
-        //when
+
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
                 .get("/employees/2");
@@ -74,9 +74,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_add_employee_successfully_when_given_an_employee() throws JsonProcessingException {
-        //given
+
         Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000);
-        //when
+
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .body(newEmployee)
                 .when()

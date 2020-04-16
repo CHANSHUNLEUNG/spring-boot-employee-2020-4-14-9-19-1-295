@@ -112,6 +112,22 @@ public class CompanyControllerTest {
             }
         });
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(1,Companies.size());
+        Assert.assertEquals(1, Companies.size());
+    }
+
+    @Test
+    public void should_add_new_company_successfully_when_given_new_company() {
+        Company newCompany = new Company(4, "leocompany4");
+
+        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
+                .body(newCompany)
+                .when()
+                .post("/companies");
+
+        Company company = mvcResponse.getBody().as(Company.class);
+        Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
+        Assert.assertEquals(4, this.companyController.getCompanies().size());
+        Assert.assertEquals(4, this.companyController.getCompanies().get(3).getId());
+        Assert.assertEquals("leocompany4", this.companyController.getCompanies().get(3).getName());
     }
 }
