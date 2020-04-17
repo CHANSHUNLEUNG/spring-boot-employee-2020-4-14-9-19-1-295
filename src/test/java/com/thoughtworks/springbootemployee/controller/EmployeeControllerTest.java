@@ -111,15 +111,15 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_update_employee_successfully_when_given_existing_employee() {
-        Employee employee = new Employee(1, "leo1", 18, "male", 100000, 1);
+        Employee oldEmployee = new Employee(1, "leo1", 18, "male", 100000, 1);
+        Employee newEmployee = new Employee(1, "leo1", 20, "male", 100000, 1);
+        oldEmployee.setAge(newEmployee.getAge());
 
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .body(employee)
-                .when()
-                .put("/employees/1");
+        Mockito.when(mockEmployeeRepository.findById(1)).thenReturn(Optional.of(oldEmployee));
 
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(100000, this.employeeController.getEmployees().get(0).getSalary());
+        mockEmployeeService.updateEmployees(1,newEmployee);
+
+        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).save(oldEmployee);
     }
 
     @Test
