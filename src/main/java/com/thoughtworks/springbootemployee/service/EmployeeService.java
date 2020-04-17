@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -23,16 +24,16 @@ public class EmployeeService {
     }
 
     public boolean updateEmployees(int employeeId, Employee newEmployee) {
-        Employee existingEmployee = employeeRepository.findByID(employeeId);
+        Employee existingEmployee = employeeRepository.findById(new Integer(employeeId)).orElse(null);
         if (existingEmployee == null) {
             return false;
         }
-        employeeRepository.update(existingEmployee, newEmployee);
+        employeeRepository.save(existingEmployee);
         return true;
     }
 
     public boolean deleteEmployees(int employeeId) {
-        Employee existingEmployee = employeeRepository.findByID(employeeId);
+        Employee existingEmployee = employeeRepository.findById(employeeId).orElse(null);
         if (existingEmployee == null) {
             return false;
         }
@@ -40,12 +41,12 @@ public class EmployeeService {
         return true;
     }
 
-    public Employee getEmployeeById(int employeeID) {
-        return employeeRepository.findByID(employeeID);
+    public Employee getEmployeeById(int employeeId) {
+        return employeeRepository.findById(new Integer(employeeId)).orElse(null);
     }
 
     public List<Employee> getEmployeeByGender(String gender) {
-        return employeeRepository.findByGender(gender);
+        return employeeRepository.findAllByGender(gender);
     }
 
     public List<Employee> getEmployeesWithPagination(int page, int pageSize) {

@@ -6,6 +6,7 @@ import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +17,6 @@ import org.springframework.cloud.contract.spec.internal.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,11 +36,14 @@ public class EmployeeControllerTest {
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(employeeController);
 
-        employeeRepository.setEmployees(new ArrayList<>(Arrays.asList(
-                new Employee(1, "leo1", 18, "male", 80000),
-                new Employee(2, "leo2", 18, "female", 80000),
-                new Employee(3, "leo3", 18, "male", 80000)
-        )));
+        employeeRepository.save(new Employee(1, "leo1", 18, "male", 80000));
+        employeeRepository.save(new Employee(2, "leo2", 18, "male", 80000));
+        employeeRepository.save(new Employee(3, "leo3", 18, "male", 80000));
+    }
+
+    @After
+    public void cleanUp() {
+        employeeRepository.deleteAll();
     }
 
     @Test
@@ -59,7 +61,6 @@ public class EmployeeControllerTest {
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(3, employees.size());
-        Assert.assertEquals(2, employees.get(1).getId().intValue());
         Assert.assertEquals("leo2", employees.get(1).getName());
     }
 
@@ -72,7 +73,6 @@ public class EmployeeControllerTest {
         Employee employee = mvcResponse.getBody().as(Employee.class);
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, employee.getId().intValue());
         Assert.assertEquals("leo2", employee.getName());
     }
 
@@ -86,7 +86,6 @@ public class EmployeeControllerTest {
                 .post("/employees");
 
         Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
-        Assert.assertEquals(4, this.employeeController.getEmployees().get(3).getId().intValue());
         Assert.assertEquals("leo4", this.employeeController.getEmployees().get(3).getName());
     }
 
@@ -128,7 +127,7 @@ public class EmployeeControllerTest {
         });
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(2, employees.size());
-        Assert.assertEquals(3, employees.get(1).getId().intValue());
+        Assert.assertEquals("leo3", employees.get(1).getName());
     }
 
     @Test
