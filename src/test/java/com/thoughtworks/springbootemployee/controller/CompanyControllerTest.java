@@ -38,16 +38,16 @@ public class CompanyControllerTest {
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(companyController);
 
-        companyRepository.setCompanies(new ArrayList<>(Arrays.asList(
-                new Company(1, "leocompany1", 0, new ArrayList<>()),
-                new Company(2, "leocompany2", 0, new ArrayList<>()),
-                new Company(3, "leocompany3", 0, new ArrayList<>())
-        )));
-        companyRepository.findAll().get(1).setEmployees(new ArrayList<>(Arrays.asList(
-                new Employee(1, "leo1", 18, "male", 80000),
-                new Employee(2, "leo2", 18, "male", 80000),
-                new Employee(3, "leo3", 18, "male", 80000)
-        )));
+//        companyRepository.setCompanies(new ArrayList<>(Arrays.asList(
+//                new Company(1, "leocompany1", 0, new ArrayList<>()),
+//                new Company(2, "leocompany2", 0, new ArrayList<>()),
+//                new Company(3, "leocompany3", 0, new ArrayList<>())
+//        )));
+//        companyRepository.findAll().get(1).setEmployees(new ArrayList<>(Arrays.asList(
+//                new Employee(1, "leo1", 18, "male", 80000),
+//                new Employee(2, "leo2", 18, "male", 80000),
+//                new Employee(3, "leo3", 18, "male", 80000)
+//        )));
     }
 
     @Test

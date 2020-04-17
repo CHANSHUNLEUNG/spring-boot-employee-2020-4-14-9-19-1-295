@@ -20,6 +20,6 @@ public class Company {
     private Integer id;
     private String name;
     private Integer employeesNumber;
-    @ElementCollection
+    @OneToMany(targetEntity = Employee.class, mappedBy = "companyId", fetch = FetchType.EAGER)
     private List<Employee> employees;
 }

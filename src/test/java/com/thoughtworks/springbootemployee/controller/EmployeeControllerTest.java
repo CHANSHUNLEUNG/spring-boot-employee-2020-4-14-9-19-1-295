@@ -36,14 +36,15 @@ public class EmployeeControllerTest {
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(employeeController);
 
-        employeeRepository.save(new Employee(1, "leo1", 18, "male", 80000));
-        employeeRepository.save(new Employee(2, "leo2", 18, "male", 80000));
-        employeeRepository.save(new Employee(3, "leo3", 18, "male", 80000));
+        employeeRepository.save(new Employee(1, "leo1", 18, "male", 80000,1));
+        employeeRepository.save(new Employee(2, "leo2", 18, "male", 80000,1));
+        employeeRepository.save(new Employee(3, "leo3", 18, "male", 80000,1));
     }
 
     @After
     public void cleanUp() {
         employeeRepository.deleteAll();
+//        employeeRepository.resetId();
     }
 
     @Test
@@ -78,7 +79,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_add_employee_successfully_when_given_an_employee() {
-        Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000);
+        Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000,1);
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .body(newEmployee)
@@ -101,7 +102,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_update_employee_successfully_when_given_existing_employee() {
-        Employee employee = new Employee(1, "leo1", 18, "male", 100000);
+        Employee employee = new Employee(1, "leo1", 18, "male", 100000,1);
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .body(employee)

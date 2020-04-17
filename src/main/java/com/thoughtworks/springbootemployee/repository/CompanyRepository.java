@@ -1,39 +1,12 @@
 package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Repository
-public class CompanyRepository {
-    private List<Company> companies = new ArrayList<>();
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
-    public List<Company> findAll() {
-        return this.companies;
-    }
-
-    public void setCompanies(List<Company> companies) {
-        this.companies = companies;
-    }
-
-    public Company findById(int companyID) {
-        return this.companies.stream()
-                .filter(company -> company.getId() == companyID)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public void updateCompany(Company targetCompany, Company newCompany) {
-        this.companies.set(this.companies.indexOf(targetCompany), newCompany);
-    }
-
-    public void delete(Company targetCompany) {
-        this.companies.remove(targetCompany);
-    }
-
-    public void save(Company company) {
-        this.companies.add(company);
-    }
 }
