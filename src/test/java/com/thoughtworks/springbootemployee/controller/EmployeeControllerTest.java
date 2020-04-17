@@ -59,7 +59,7 @@ public class EmployeeControllerTest {
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(3, employees.size());
-        Assert.assertEquals(2, employees.get(1).getId());
+        Assert.assertEquals(2, employees.get(1).getId().intValue());
         Assert.assertEquals("leo2", employees.get(1).getName());
     }
 
@@ -72,7 +72,7 @@ public class EmployeeControllerTest {
         Employee employee = mvcResponse.getBody().as(Employee.class);
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, employee.getId());
+        Assert.assertEquals(2, employee.getId().intValue());
         Assert.assertEquals("leo2", employee.getName());
     }
 
@@ -86,7 +86,7 @@ public class EmployeeControllerTest {
                 .post("/employees");
 
         Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
-        Assert.assertEquals(4, this.employeeController.getEmployees().get(3).getId());
+        Assert.assertEquals(4, this.employeeController.getEmployees().get(3).getId().intValue());
         Assert.assertEquals("leo4", this.employeeController.getEmployees().get(3).getName());
     }
 
@@ -128,7 +128,7 @@ public class EmployeeControllerTest {
         });
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(2, employees.size());
-        Assert.assertEquals(3, employees.get(1).getId());
+        Assert.assertEquals(3, employees.get(1).getId().intValue());
     }
 
     @Test

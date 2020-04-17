@@ -39,9 +39,9 @@ public class CompanyControllerTest {
         RestAssuredMockMvc.standaloneSetup(companyController);
 
         companyRepository.setCompanies(new ArrayList<>(Arrays.asList(
-                new Company(1, "leocompany1"),
-                new Company(2, "leocompany2"),
-                new Company(3, "leocompany3")
+                new Company(1, "leocompany1", 0, new ArrayList<>()),
+                new Company(2, "leocompany2", 0, new ArrayList<>()),
+                new Company(3, "leocompany3", 0, new ArrayList<>())
         )));
         companyRepository.findAll().get(1).setEmployees(new ArrayList<>(Arrays.asList(
                 new Employee(1, "leo1", 18, "male", 80000),
@@ -58,7 +58,7 @@ public class CompanyControllerTest {
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(3, this.companyController.getCompanies().size());
-        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId());
+        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId().intValue());
         Assert.assertEquals("leocompany2", this.companyController.getCompanies().get(1).getName());
     }
 
@@ -71,7 +71,7 @@ public class CompanyControllerTest {
         Company company = mvcResponse.getBody().as(Company.class);
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, company.getId());
+        Assert.assertEquals(2, company.getId().intValue());
         Assert.assertEquals("leocompany2", company.getName());
     }
 
@@ -89,7 +89,7 @@ public class CompanyControllerTest {
         });
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(3, employees.size());
-        Assert.assertEquals(1, employees.get(0).getId());
+        Assert.assertEquals(1, employees.get(0).getId().intValue());
         Assert.assertEquals("leo1", employees.get(0).getName());
     }
 
@@ -116,7 +116,7 @@ public class CompanyControllerTest {
 
     @Test
     public void should_add_new_company_successfully_when_given_new_company() {
-        Company newCompany = new Company(4, "leocompany4");
+        Company newCompany = new Company(4, "leocompany4", 0, new ArrayList<>());
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .body(newCompany)
@@ -125,13 +125,13 @@ public class CompanyControllerTest {
 
         Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
         Assert.assertEquals(4, this.companyController.getCompanies().size());
-        Assert.assertEquals(4, this.companyController.getCompanies().get(3).getId());
+        Assert.assertEquals(4, this.companyController.getCompanies().get(3).getId().intValue());
         Assert.assertEquals("leocompany4", this.companyController.getCompanies().get(3).getName());
     }
 
     @Test
     public void should_update_company_successfully_when_given_existing_company() {
-        Company newCompany = new Company(2, "leocompany20");
+        Company newCompany = new Company(2, "leocompany20", 0, new ArrayList<>());
         int existingId = 2;
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
@@ -140,7 +140,7 @@ public class CompanyControllerTest {
                 .put("/companies/" + existingId);
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId());
+        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId().intValue());
         Assert.assertEquals("leocompany20", this.companyController.getCompanies().get(1).getName());
     }
 
