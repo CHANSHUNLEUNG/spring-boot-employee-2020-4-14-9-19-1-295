@@ -14,9 +14,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ParkingBoyControllerTest {
 
-    ParkingBoyRepository parkingBoyRepository = Mockito.mock(ParkingBoyRepository.class);
+    private ParkingBoyRepository parkingBoyRepository = Mockito.mock(ParkingBoyRepository.class);
 
-    ParkingBoyService parkingBoyService = new ParkingBoyService(parkingBoyRepository);
+    private ParkingBoyService parkingBoyService = new ParkingBoyService(parkingBoyRepository);
 
     @Test
     public void should_get_all_parking_boy_successfully() {

@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.service.CompanyService;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -11,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.spec.internal.HttpStatus;
@@ -18,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,14 +30,19 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 public class CompanyControllerTest {
 
     @Autowired
-    private CompanyController companyController;
+    private CompanyController oldController;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyRepository oldrepo;
+
+    private CompanyRepository companyRepository = Mockito.mock(CompanyRepository.class);
+
+    private CompanyService companyService = new CompanyService(companyRepository);
+
 
     @Before
     public void setUp() {
-        RestAssuredMockMvc.standaloneSetup(companyController);
+        RestAssuredMockMvc.standaloneSetup(oldController);
 
 //        companyRepository.setCompanies(new ArrayList<>(Arrays.asList(
 //                new Company(1, "leocompany1", 0, new ArrayList<>()),
@@ -53,14 +59,9 @@ public class CompanyControllerTest {
 
     @Test
     public void should_return_all_companies() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .when()
-                .get("/companies");
+        companyService.getCompanies();
 
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(3, this.companyController.getCompanies().size());
-        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId().intValue());
-        Assert.assertEquals("leocompany2", this.companyController.getCompanies().get(1).getName());
+        Mockito.verify(companyRepository,Mockito.times(1)).findAll();
     }
 
     @Test
@@ -125,9 +126,9 @@ public class CompanyControllerTest {
                 .post("/companies");
 
         Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
-        Assert.assertEquals(4, this.companyController.getCompanies().size());
-        Assert.assertEquals(4, this.companyController.getCompanies().get(3).getId().intValue());
-        Assert.assertEquals("leocompany4", this.companyController.getCompanies().get(3).getName());
+        Assert.assertEquals(4, this.oldController.getCompanies().size());
+        Assert.assertEquals(4, this.oldController.getCompanies().get(3).getId().intValue());
+        Assert.assertEquals("leocompany4", this.oldController.getCompanies().get(3).getName());
     }
 
     @Test
@@ -141,8 +142,8 @@ public class CompanyControllerTest {
                 .put("/companies/" + existingId);
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, this.companyController.getCompanies().get(1).getId().intValue());
-        Assert.assertEquals("leocompany20", this.companyController.getCompanies().get(1).getName());
+        Assert.assertEquals(2, this.oldController.getCompanies().get(1).getId().intValue());
+        Assert.assertEquals("leocompany20", this.oldController.getCompanies().get(1).getName());
     }
 
     @Test
@@ -153,6 +154,6 @@ public class CompanyControllerTest {
                 .delete("/companies/" + existingId);
 
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, this.companyController.getCompanies().size());
+        Assert.assertEquals(2, this.oldController.getCompanies().size());
     }
 }
