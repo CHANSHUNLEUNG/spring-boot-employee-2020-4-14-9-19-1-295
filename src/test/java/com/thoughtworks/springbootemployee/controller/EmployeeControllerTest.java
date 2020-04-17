@@ -38,7 +38,8 @@ public class EmployeeControllerTest {
     @MockBean
     private CompanyRepository companyRepository;
 
-
+    EmployeeRepository mockEmployeeRepository = Mockito.mock(EmployeeRepository.class);
+    EmployeeService mockEmployeeService = new EmployeeService(mockEmployeeRepository);
 
     @Before
     public void setUp() {
@@ -59,14 +60,6 @@ public class EmployeeControllerTest {
 
         Mockito.when(employeeRepository.findAll()).thenReturn(mockEmployees);
         Mockito.when(employeeRepository.findById(2)).thenReturn(employee2);
-
-//        this.employeeRepository = Mockito.mock(EmployeeRepository.class);
-//        this.employeeService = new EmployeeService(this.employeeRepository);
-//
-//        this.companyRepository = Mockito.mock(CompanyRepository.class);
-
-
-//        companyRepository.save(new Company(1, "leocompany1", 0, null));
     }
 
 
@@ -104,13 +97,9 @@ public class EmployeeControllerTest {
     public void should_add_employee_successfully_when_given_an_employee() {
         Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000, 1);
 
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .body(newEmployee)
-                .when()
-                .post("/employees");
+        mockEmployeeService.createEmployees(newEmployee);
 
-        Mockito.verify(employeeRepository, Mockito.times(1)).save(newEmployee);
-
+        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).save(newEmployee);
     }
 
     @Test
