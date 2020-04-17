@@ -17,38 +17,38 @@ import java.util.Optional;
 @SpringBootTest
 public class EmployeeControllerTest {
 
-    EmployeeRepository mockEmployeeRepository = Mockito.mock(EmployeeRepository.class);
+    EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
 
-    EmployeeService mockEmployeeService = new EmployeeService(mockEmployeeRepository);
+    EmployeeService employeeService = new EmployeeService(employeeRepository);
 
     @Test
     public void should_return_all_employees_successfully() {
-        mockEmployeeService.getEmployees();
+        employeeService.getEmployees();
 
-        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).findAll();
+        Mockito.verify(employeeRepository, Mockito.times(1)).findAll();
     }
 
     @Test
     public void should_return_specified_employee_when_given_employeeID() {
-        mockEmployeeService.getEmployeeById(2);
+        employeeService.getEmployeeById(2);
 
-        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).findById(2);
+        Mockito.verify(employeeRepository, Mockito.times(1)).findById(2);
     }
 
     @Test
     public void should_add_employee_successfully_when_given_an_employee() {
         Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000, 1);
 
-        mockEmployeeService.createEmployees(newEmployee);
+        employeeService.createEmployees(newEmployee);
 
-        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).save(newEmployee);
+        Mockito.verify(employeeRepository, Mockito.times(1)).save(newEmployee);
     }
 
     @Test
     public void should_delete_employee_successfully_when_given_an_employee() {
-        mockEmployeeService.deleteEmployees(2);
+        employeeService.deleteEmployees(2);
 
-        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).deleteById(2);
+        Mockito.verify(employeeRepository, Mockito.times(1)).deleteById(2);
     }
 
     @Test
@@ -57,18 +57,18 @@ public class EmployeeControllerTest {
         Employee newEmployee = new Employee(1, "leo1", 20, "male", 100000, 1);
         oldEmployee.setAge(newEmployee.getAge());
 
-        Mockito.when(mockEmployeeRepository.findById(1)).thenReturn(Optional.of(oldEmployee));
+        Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.of(oldEmployee));
 
-        mockEmployeeService.updateEmployees(1, newEmployee);
+        employeeService.updateEmployees(1, newEmployee);
 
-        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).save(oldEmployee);
+        Mockito.verify(employeeRepository, Mockito.times(1)).save(oldEmployee);
     }
 
     @Test
     public void should_return_all_male_employees_when_given_gender_is_male() {
-        mockEmployeeService.getEmployeeByGender("male");
+        employeeService.getEmployeeByGender("male");
 
-        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).findAllByGender("male");
+        Mockito.verify(employeeRepository, Mockito.times(1)).findAllByGender("male");
     }
 
     @Test
@@ -77,12 +77,12 @@ public class EmployeeControllerTest {
         int pageSize = 2;
 
         Page<Employee> pagedCompanies = Mockito.mock(Page.class);
-        Mockito.when(mockEmployeeRepository.findAll(PageRequest.of(page, pageSize))).thenReturn(pagedCompanies);
+        Mockito.when(employeeRepository.findAll(PageRequest.of(page, pageSize))).thenReturn(pagedCompanies);
         Mockito.when(pagedCompanies.getContent()).thenReturn(null);
 
-        mockEmployeeService.getEmployeesWithPagination(page, pageSize);
+        employeeService.getEmployeesWithPagination(page, pageSize);
 
-        Mockito.verify(mockEmployeeRepository, Mockito.times(1))
+        Mockito.verify(employeeRepository, Mockito.times(1))
                 .findAll(PageRequest.of(page, pageSize));
     }
 }
