@@ -124,20 +124,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_all_male_employees_when_given_gender_is_male() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .params("gender", "male")
-                .when()
-                .get("/employees");
+        mockEmployeeService.getEmployeeByGender("male");
 
-        List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
-            @Override
-            public Type getType() {
-                return super.getType();
-            }
-        });
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, employees.size());
-        Assert.assertEquals("leo3", employees.get(1).getName());
+        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).findAllByGender("male");
     }
 
     @Test
