@@ -71,20 +71,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_all_employees_successfully() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .when()
-                .get("/employees");
+        mockEmployeeService.getEmployees();
 
-        List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
-            @Override
-            public Type getType() {
-                return super.getType();
-            }
-        });
-
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(3, employees.size());
-        Assert.assertEquals("leo2", employees.get(1).getName());
+        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).findAll();
     }
 
     @Test
