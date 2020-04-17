@@ -16,7 +16,7 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
-
+    
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     List<Company> getCompanies() {

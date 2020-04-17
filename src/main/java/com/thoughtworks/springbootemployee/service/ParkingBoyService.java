@@ -12,6 +12,10 @@ public class ParkingBoyService {
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
 
+    public ParkingBoyService(ParkingBoyRepository parkingBoyRepository) {
+        this.parkingBoyRepository = parkingBoyRepository;
+    }
+
     public List<ParkingBoy> getAll() {
         return parkingBoyRepository.findAll();
     }

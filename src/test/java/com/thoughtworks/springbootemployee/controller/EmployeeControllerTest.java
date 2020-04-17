@@ -1,24 +1,25 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.contract.spec.internal.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
@@ -29,23 +30,45 @@ public class EmployeeControllerTest {
     @Autowired
     private EmployeeController employeeController;
 
-    @Autowired
+    private EmployeeService employeeService;
+
+    @MockBean
     private EmployeeRepository employeeRepository;
+
+    @MockBean
+    private CompanyRepository companyRepository;
+
+
 
     @Before
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(employeeController);
 
-        employeeRepository.save(new Employee(1, "leo1", 18, "male", 80000,1));
-        employeeRepository.save(new Employee(2, "leo2", 18, "male", 80000,1));
-        employeeRepository.save(new Employee(3, "leo3", 18, "male", 80000,1));
+        Optional<Employee> employee1 =
+                Optional.of(new Employee(1, "leo1", 18, "male", 80000, 1));
+        Optional<Employee> employee2 =
+                Optional.of(new Employee(2, "leo2", 18, "female", 80000, 1));
+        Optional<Employee> employee3 =
+                Optional.of(new Employee(3, "leo3", 18, "male", 80000, 1));
+
+        List<Employee> mockEmployees = new ArrayList<>(Arrays.asList(
+                employee1.get(),
+                employee2.get(),
+                employee3.get()
+        ));
+
+        Mockito.when(employeeRepository.findAll()).thenReturn(mockEmployees);
+        Mockito.when(employeeRepository.findById(2)).thenReturn(employee2);
+
+//        this.employeeRepository = Mockito.mock(EmployeeRepository.class);
+//        this.employeeService = new EmployeeService(this.employeeRepository);
+//
+//        this.companyRepository = Mockito.mock(CompanyRepository.class);
+
+
+//        companyRepository.save(new Company(1, "leocompany1", 0, null));
     }
 
-    @After
-    public void cleanUp() {
-        employeeRepository.deleteAll();
-//        employeeRepository.resetId();
-    }
 
     @Test
     public void should_return_all_employees_successfully() {
@@ -79,15 +102,15 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_add_employee_successfully_when_given_an_employee() {
-        Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000,1);
+        Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000, 1);
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .body(newEmployee)
                 .when()
                 .post("/employees");
 
-        Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
-        Assert.assertEquals("leo4", this.employeeController.getEmployees().get(3).getName());
+        Mockito.verify(employeeRepository, Mockito.times(1)).save(newEmployee);
+
     }
 
     @Test
@@ -102,7 +125,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_update_employee_successfully_when_given_existing_employee() {
-        Employee employee = new Employee(1, "leo1", 18, "male", 100000,1);
+        Employee employee = new Employee(1, "leo1", 18, "male", 100000, 1);
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .body(employee)
