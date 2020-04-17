@@ -1,6 +1,5 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
@@ -9,17 +8,24 @@ import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.contract.spec.internal.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
@@ -106,7 +112,7 @@ public class EmployeeControllerTest {
     public void should_delete_employee_successfully_when_given_an_employee() {
         mockEmployeeService.deleteEmployees(2);
 
-        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).deleteById(2);
+        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).deleteById(2);
     }
 
     @Test
@@ -117,34 +123,30 @@ public class EmployeeControllerTest {
 
         Mockito.when(mockEmployeeRepository.findById(1)).thenReturn(Optional.of(oldEmployee));
 
-        mockEmployeeService.updateEmployees(1,newEmployee);
+        mockEmployeeService.updateEmployees(1, newEmployee);
 
-        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).save(oldEmployee);
+        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).save(oldEmployee);
     }
 
     @Test
     public void should_return_all_male_employees_when_given_gender_is_male() {
         mockEmployeeService.getEmployeeByGender("male");
 
-        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).findAllByGender("male");
+        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).findAllByGender("male");
     }
 
     @Test
     public void should_return_1_employee_when_get_employees_given_page_is_2_and_pageSize_is_2() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .params(new HashMap<String, Integer>() {{
-                    put("page", 2);
-                    put("pageSize", 2);
-                }})
-                .when()
-                .get("/employees");
-        List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
-            @Override
-            public Type getType() {
-                return super.getType();
-            }
-        });
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(1, employees.size());
+        int page = 2;
+        int pageSize = 2;
+
+        Page<Employee> pagedCompanies = Mockito.mock(Page.class);
+        Mockito.when(mockEmployeeRepository.findAll(PageRequest.of(2, 2))).thenReturn(pagedCompanies);
+        Mockito.when(pagedCompanies.getContent()).thenReturn(null);
+
+        mockEmployeeService.getEmployeesWithPagination(page, pageSize);
+
+        Mockito.verify(mockEmployeeRepository, Mockito.times(1))
+                .findAll(PageRequest.of(page, pageSize));
     }
 }

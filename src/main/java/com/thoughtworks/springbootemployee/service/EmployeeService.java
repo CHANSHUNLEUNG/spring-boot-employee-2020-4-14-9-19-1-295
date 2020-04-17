@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,14 +50,6 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeesWithPagination(int page, int pageSize) {
-        List<Employee> employees = employeeRepository.findAll();
-        int startIndex = (page - 1) * pageSize;
-        int endIndex = page * pageSize;
-        if (employees.size() < startIndex) {
-            return new ArrayList<>();
-        } else if (employees.size() > startIndex && employees.size() < endIndex) {
-            return employees.subList(startIndex, employees.size());
-        }
-        return employees.subList((page - 1) * pageSize, page * pageSize);
+        return employeeRepository.findAll(PageRequest.of(page,pageSize)).getContent();
     }
 }
