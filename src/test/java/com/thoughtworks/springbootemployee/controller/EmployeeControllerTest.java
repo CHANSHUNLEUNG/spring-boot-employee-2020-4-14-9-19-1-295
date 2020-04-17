@@ -1,86 +1,38 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
-import io.restassured.http.ContentType;
-import io.restassured.mapper.TypeRef;
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import io.restassured.module.mockmvc.response.MockMvcResponse;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.contract.spec.internal.HttpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-
-import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EmployeeControllerTest {
 
-    @Autowired
-    private EmployeeController employeeController;
-
-    private EmployeeService employeeService;
-
-    @MockBean
-    private EmployeeRepository employeeRepository;
-
-    @MockBean
-    private CompanyRepository companyRepository;
-
     EmployeeRepository mockEmployeeRepository = Mockito.mock(EmployeeRepository.class);
+
     EmployeeService mockEmployeeService = new EmployeeService(mockEmployeeRepository);
-
-    @Before
-    public void setUp() {
-        RestAssuredMockMvc.standaloneSetup(employeeController);
-
-        Optional<Employee> employee1 =
-                Optional.of(new Employee(1, "leo1", 18, "male", 80000, 1));
-        Optional<Employee> employee2 =
-                Optional.of(new Employee(2, "leo2", 18, "female", 80000, 1));
-        Optional<Employee> employee3 =
-                Optional.of(new Employee(3, "leo3", 18, "male", 80000, 1));
-
-        List<Employee> mockEmployees = new ArrayList<>(Arrays.asList(
-                employee1.get(),
-                employee2.get(),
-                employee3.get()
-        ));
-
-        Mockito.when(employeeRepository.findAll()).thenReturn(mockEmployees);
-        Mockito.when(employeeRepository.findById(2)).thenReturn(employee2);
-    }
-
 
     @Test
     public void should_return_all_employees_successfully() {
         mockEmployeeService.getEmployees();
 
-        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).findAll();
+        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).findAll();
     }
 
     @Test
     public void should_return_specified_employee_when_given_employeeID() {
         mockEmployeeService.getEmployeeById(2);
 
-        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).findById(2);
+        Mockito.verify(mockEmployeeRepository, Mockito.times(1)).findById(2);
     }
 
     @Test
