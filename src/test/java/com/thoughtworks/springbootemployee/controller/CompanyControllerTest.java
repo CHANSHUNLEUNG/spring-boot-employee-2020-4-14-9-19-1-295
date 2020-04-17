@@ -61,20 +61,14 @@ public class CompanyControllerTest {
     public void should_return_all_companies() {
         companyService.getCompanies();
 
-        Mockito.verify(companyRepository,Mockito.times(1)).findAll();
+        Mockito.verify(companyRepository, Mockito.times(1)).findAll();
     }
 
     @Test
     public void should_return_specified_company_when_given_employeeId() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .when()
-                .get("/companies/2");
+        companyService.getCompanyById(2);
 
-        Company company = mvcResponse.getBody().as(Company.class);
-
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, company.getId().intValue());
-        Assert.assertEquals("leocompany2", company.getName());
+        Mockito.verify(companyRepository, Mockito.times(1)).findById(2);
     }
 
     @Test
