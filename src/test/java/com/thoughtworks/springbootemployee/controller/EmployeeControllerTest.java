@@ -104,12 +104,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_delete_employee_successfully_when_given_an_employee() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .when()
-                .delete("/employees/2");
+        mockEmployeeService.deleteEmployees(2);
 
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, this.employeeController.getEmployees().size());
+        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).deleteById(2);
     }
 
     @Test

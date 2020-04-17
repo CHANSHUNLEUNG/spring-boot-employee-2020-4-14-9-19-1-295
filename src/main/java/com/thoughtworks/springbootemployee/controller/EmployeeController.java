@@ -38,10 +38,6 @@ public class EmployeeController {
 
     @DeleteMapping(path = "/{employeeId}")
     public ResponseEntity<Object> deleteEmployees(@PathVariable int employeeId) {
-        boolean isDelete = employeeService.deleteEmployees(employeeId);
-        if (!isDelete) {
-            return new ResponseEntity<>("Error, employee is not exist.", HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>("Remove employee with id " + employeeId + " successfully", HttpStatus.OK);
     }
 

@@ -36,13 +36,8 @@ public class EmployeeService {
         return true;
     }
 
-    public boolean deleteEmployees(int employeeId) {
-        Employee existingEmployee = employeeRepository.findById(employeeId).orElse(null);
-        if (existingEmployee == null) {
-            return false;
-        }
-        employeeRepository.delete(existingEmployee);
-        return true;
+    public void deleteEmployees(int employeeId) {
+        employeeRepository.deleteById(employeeId);
     }
 
     public Employee getEmployeeById(int employeeId) {
