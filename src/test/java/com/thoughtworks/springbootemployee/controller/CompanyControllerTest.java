@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -30,16 +31,19 @@ public class CompanyControllerTest {
     @Autowired
     private CompanyController companyController;
 
+    @Autowired
+    private CompanyRepository companyRepository;
+
     @Before
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(companyController);
 
-        this.companyController.setCompanies(new ArrayList<>(Arrays.asList(
+        companyRepository.setCompanies(new ArrayList<>(Arrays.asList(
                 new Company(1, "leocompany1"),
                 new Company(2, "leocompany2"),
                 new Company(3, "leocompany3")
         )));
-        this.companyController.getCompanies().get(1).setEmployees(new ArrayList<>(Arrays.asList(
+        companyRepository.findAll().get(1).setEmployees(new ArrayList<>(Arrays.asList(
                 new Employee(1, "leo1", 18, "male", 80000),
                 new Employee(2, "leo2", 18, "male", 80000),
                 new Employee(3, "leo3", 18, "male", 80000)
@@ -98,12 +102,14 @@ public class CompanyControllerTest {
                 }})
                 .when()
                 .get("/companies");
+
         List<Company> Companies = mvcResponse.getBody().as(new TypeRef<List<Company>>() {
             @Override
             public Type getType() {
                 return super.getType();
             }
         });
+
         Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
         Assert.assertEquals(1, Companies.size());
     }

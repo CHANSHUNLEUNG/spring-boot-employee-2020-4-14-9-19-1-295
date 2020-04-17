@@ -15,10 +15,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    void setEmployees(List<Employee> employees) {
-        employeeService.setEmployees(employees);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     List<Employee> getEmployees() {

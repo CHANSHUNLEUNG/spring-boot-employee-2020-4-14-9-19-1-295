@@ -18,10 +18,6 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public void setEmployees(List<Employee> employees) {
-        employeeRepository.setEmployees(employees);
-    }
-
     public Employee createEmployees(Employee newEmployee) {
         return employeeRepository.save(newEmployee);
     }

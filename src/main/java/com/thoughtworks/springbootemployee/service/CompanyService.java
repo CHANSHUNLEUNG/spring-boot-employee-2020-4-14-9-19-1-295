@@ -19,10 +19,6 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
-    public void setCompanies(List<Company> companies) {
-        companyRepository.setCompanies(companies);
-    }
-
     public Company getCompanyById(int companyID) {
         return companyRepository.findById(companyID);
     }

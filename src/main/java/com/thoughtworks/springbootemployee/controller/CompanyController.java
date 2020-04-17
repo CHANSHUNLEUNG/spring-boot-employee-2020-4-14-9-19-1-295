@@ -17,10 +17,6 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    void setCompanies(List<Company> companies) {
-        companyService.setCompanies(companies);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     List<Company> getCompanies() {

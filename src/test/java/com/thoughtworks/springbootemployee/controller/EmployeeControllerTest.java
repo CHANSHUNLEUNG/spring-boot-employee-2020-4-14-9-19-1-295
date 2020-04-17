@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -29,11 +30,14 @@ public class EmployeeControllerTest {
     @Autowired
     private EmployeeController employeeController;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
     @Before
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(employeeController);
 
-        this.employeeController.setEmployees(new ArrayList<>(Arrays.asList(
+        employeeRepository.setEmployees(new ArrayList<>(Arrays.asList(
                 new Employee(1, "leo1", 18, "male", 80000),
                 new Employee(2, "leo2", 18, "female", 80000),
                 new Employee(3, "leo3", 18, "male", 80000)
@@ -42,7 +46,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_all_employees_successfully() {
-
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
                 .get("/employees");
@@ -62,7 +65,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_specified_employee_when_given_employeeID() {
-
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
                 .get("/employees/2");
@@ -76,7 +78,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_add_employee_successfully_when_given_an_employee() {
-
         Employee newEmployee = new Employee(4, "leo4", 18, "male", 80000);
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
@@ -101,7 +102,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_update_employee_successfully_when_given_existing_employee() {
-        //when
         Employee employee = new Employee(1, "leo1", 18, "male", 100000);
 
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
