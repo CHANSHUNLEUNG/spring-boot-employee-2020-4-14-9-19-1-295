@@ -78,14 +78,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_specified_employee_when_given_employeeID() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .when()
-                .get("/employees/2");
+        mockEmployeeService.getEmployeeById(2);
 
-        Employee employee = mvcResponse.getBody().as(Employee.class);
-
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals("leo2", employee.getName());
+        Mockito.verify(mockEmployeeRepository,Mockito.times(1)).findById(2);
     }
 
     @Test
@@ -130,7 +125,7 @@ public class EmployeeControllerTest {
         int pageSize = 2;
 
         Page<Employee> pagedCompanies = Mockito.mock(Page.class);
-        Mockito.when(mockEmployeeRepository.findAll(PageRequest.of(2, 2))).thenReturn(pagedCompanies);
+        Mockito.when(mockEmployeeRepository.findAll(PageRequest.of(page, pageSize))).thenReturn(pagedCompanies);
         Mockito.when(pagedCompanies.getContent()).thenReturn(null);
 
         mockEmployeeService.getEmployeesWithPagination(page, pageSize);
