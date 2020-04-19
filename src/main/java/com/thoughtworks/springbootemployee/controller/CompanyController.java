@@ -57,10 +57,6 @@ public class CompanyController {
 
     @DeleteMapping(path = "/{companyId}")
     public ResponseEntity<Object> deleteCompanies(@PathVariable int companyId) {
-        boolean isDelete = companyService.deleteCompanies(companyId);
-        if (!isDelete) {
-            return new ResponseEntity<>("Error, company is not exist", HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>("Remove company with id " + companyId + " successfully", HttpStatus.OK);
     }
 

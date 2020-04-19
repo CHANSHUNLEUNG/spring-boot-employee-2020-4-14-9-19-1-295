@@ -29,10 +29,6 @@ public class EmployeeController {
 
     @PutMapping(path = "/{employeeId}")
     public ResponseEntity<Object> updateEmployees(@PathVariable int employeeId, @RequestBody Employee newEmployee) {
-        boolean isUpdate = employeeService.updateEmployees(employeeId, newEmployee);
-        if (!isUpdate) {
-            return new ResponseEntity<>("Error, employee is not exist.", HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(newEmployee, HttpStatus.OK);
     }
 

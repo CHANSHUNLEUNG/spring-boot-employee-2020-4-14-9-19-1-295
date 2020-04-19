@@ -53,13 +53,8 @@ public class CompanyService {
         return true;
     }
 
-    public boolean deleteCompanies(int companyId) {
-        Company targetCompany = companyRepository.findById(companyId).orElse(null);
-        if (targetCompany == null) {
-            return false;
-        }
-        companyRepository.delete(targetCompany);
-        return true;
+    public void deleteCompanies(int companyId) {
+        companyRepository.deleteById(companyId);
     }
 
     public void addCompanies(Company company) {

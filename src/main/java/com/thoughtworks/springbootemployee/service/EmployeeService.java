@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -28,13 +26,18 @@ public class EmployeeService {
         return employeeRepository.save(newEmployee);
     }
 
-    public boolean updateEmployees(int employeeId, Employee newEmployee) {
+    public void updateEmployees(int employeeId, Employee newEmployee) {
         Employee existingEmployee = employeeRepository.findById(new Integer(employeeId)).orElse(null);
         if (existingEmployee == null) {
-            return false;
+            return;
         }
+        existingEmployee.setName(newEmployee.getName());
+//        existingEmployee.setAge(newEmployee.getAge());
+        existingEmployee.setCompanyId(newEmployee.getCompanyId());
+        existingEmployee.setGender(newEmployee.getGender());
+        existingEmployee.setSalary(newEmployee.getSalary());
+
         employeeRepository.save(existingEmployee);
-        return true;
     }
 
     public void deleteEmployees(int employeeId) {
@@ -50,6 +53,6 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeesWithPagination(int page, int pageSize) {
-        return employeeRepository.findAll(PageRequest.of(page,pageSize)).getContent();
+        return employeeRepository.findAll(PageRequest.of(page, pageSize)).getContent();
     }
 }

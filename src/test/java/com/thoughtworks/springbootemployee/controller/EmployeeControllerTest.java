@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class EmployeeControllerTest {
 
         employeeService.createEmployees(newEmployee);
 
-        Mockito.verify(employeeRepository, Mockito.times(1)).save(newEmployee);
+        Mockito.verify(employeeRepository, Mockito.times(1)).save(Mockito.any(Employee.class));
     }
 
     @Test
@@ -55,13 +56,13 @@ public class EmployeeControllerTest {
     public void should_update_employee_successfully_when_given_existing_employee() {
         Employee oldEmployee = new Employee(1, "leo1", 18, "male", 100000, 1);
         Employee newEmployee = new Employee(1, "leo1", 20, "male", 100000, 1);
-        oldEmployee.setAge(newEmployee.getAge());
 
         Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.of(oldEmployee));
 
         employeeService.updateEmployees(1, newEmployee);
+        oldEmployee.setAge(newEmployee.getAge());
 
-        Mockito.verify(employeeRepository, Mockito.times(1)).save(oldEmployee);
+        Mockito.verify(employeeRepository, Mockito.times(1)).save(Mockito.any(Employee.class));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class EmployeeControllerTest {
         int pageSize = 2;
 
         Page<Employee> pagedCompanies = Mockito.mock(Page.class);
-        Mockito.when(employeeRepository.findAll(PageRequest.of(page, pageSize))).thenReturn(pagedCompanies);
+        Mockito.when(employeeRepository.findAll(Mockito.any(Pageable.class))).thenReturn(pagedCompanies);
         Mockito.when(pagedCompanies.getContent()).thenReturn(null);
 
         employeeService.getEmployeesWithPagination(page, pageSize);
