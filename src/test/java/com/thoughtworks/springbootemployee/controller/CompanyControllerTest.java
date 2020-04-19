@@ -3,17 +3,13 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.service.CompanyService;
-import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import io.restassured.module.mockmvc.response.MockMvcResponse;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.contract.spec.internal.HttpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Optional;
-
-import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -103,18 +97,15 @@ public class CompanyControllerTest {
 
         companyService.updateCompanies(2, newCompany);
 
-        Mockito.verify(companyRepository,Mockito.times(1)).save(Mockito.any(Company.class));
+        Mockito.verify(companyRepository, Mockito.times(1)).save(Mockito.any(Company.class));
     }
 
     @Test
     public void should_delete_company_successfully_when_given_existing_id() {
+        int companyId = 2;
 
-        int existingId = 2;
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .when()
-                .delete("/companies/" + existingId);
+        companyService.deleteCompanies(companyId);
 
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, this.oldController.getCompanies().size());
+        Mockito.verify(companyRepository, Mockito.times(1)).deleteById(companyId);
     }
 }
