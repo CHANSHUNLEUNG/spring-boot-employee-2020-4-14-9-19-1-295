@@ -27,11 +27,11 @@ public class ParkingBoyControllerTest {
 
     @Test
     public void should_create_parking_boy_when_given_a_new_parking_boy() {
-        ParkingBoy parkingBoy = new ParkingBoy(1,"leo",1,
-                new Employee(1,"leo chan",18,"male",80000,1));
+        ParkingBoy parkingBoy = new ParkingBoy(1, "leo", 1,
+                new Employee(1, "leo chan", 18, "male", 80000, 1));
 
         parkingBoyService.addParkingBoy(parkingBoy);
 
-        Mockito.verify(parkingBoyRepository,Mockito.times(1)).save(parkingBoy);
+        Mockito.verify(parkingBoyRepository, Mockito.times(1)).save(parkingBoy);
     }
 }

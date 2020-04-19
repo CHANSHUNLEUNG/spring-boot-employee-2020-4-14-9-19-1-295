@@ -43,18 +43,6 @@ public class CompanyControllerTest {
     @Before
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(oldController);
-
-//        companyRepository.setCompanies(new ArrayList<>(Arrays.asList(
-//                new Company(1, "leocompany1", 0, new ArrayList<>()),
-//                new Company(2, "leocompany2", 0, new ArrayList<>()),
-//                new Company(3, "leocompany3", 0, new ArrayList<>())
-//        )));
-//        companyRepository.findAll().get(1).setEmployees(new ArrayList<>(Arrays.asList(
-//                new Employee(1, "leo1", 18, "male", 80000),
-//                new Employee(2, "leo2", 18, "male", 80000),
-//                new Employee(3, "leo3", 18, "male", 80000)
-//        )));
-
     }
 
     @Test
@@ -73,20 +61,9 @@ public class CompanyControllerTest {
 
     @Test
     public void should_return_all_employees_of_a_company_when_given_companyId() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .when()
-                .get("/companies/2/employees");
+        companyService.getCompanyById(2);
 
-        List<Employee> employees = mvcResponse.getBody().as(new TypeRef<List<Employee>>() {
-            @Override
-            public Type getType() {
-                return super.getType();
-            }
-        });
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(3, employees.size());
-        Assert.assertEquals(1, employees.get(0).getId().intValue());
-        Assert.assertEquals("leo1", employees.get(0).getName());
+        Mockito.verify(companyRepository, Mockito.times(1)).findById(2);
     }
 
     @Test

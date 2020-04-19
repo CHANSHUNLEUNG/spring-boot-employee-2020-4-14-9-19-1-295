@@ -16,13 +16,13 @@ public class ParkingBoyController {
     private ParkingBoyService parkingBoyService;
 
     @GetMapping
-    public List<ParkingBoy> getAll(){
+    public List<ParkingBoy> getAll() {
         return parkingBoyService.getAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ParkingBoy addParkingBoy(@RequestBody ParkingBoy parkingBoy){
+    public ParkingBoy addParkingBoy(@RequestBody ParkingBoy parkingBoy) {
         return parkingBoyService.addParkingBoy(parkingBoy);
     }
 
