@@ -1,11 +1,9 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.service.CompanyService;
 import io.restassured.http.ContentType;
-import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import org.junit.Assert;
@@ -16,12 +14,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.spec.internal.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
@@ -68,23 +66,17 @@ public class CompanyControllerTest {
 
     @Test
     public void should_return_1_company_when_get_companies_given_page_is_2_and_pageSize_is_2() {
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .params(new HashMap<String, Integer>() {{
-                    put("page", 2);
-                    put("pageSize", 2);
-                }})
-                .when()
-                .get("/companies");
+        int page = 2;
+        int pageSize = 2;
 
-        List<Company> Companies = mvcResponse.getBody().as(new TypeRef<List<Company>>() {
-            @Override
-            public Type getType() {
-                return super.getType();
-            }
-        });
+        Page<Company> pagedCompanies = Mockito.mock(Page.class);
+        Mockito.when(companyRepository.findAll(Mockito.any(Pageable.class))).thenReturn(pagedCompanies);
+        Mockito.when(pagedCompanies.getContent()).thenReturn(null);
 
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(1, Companies.size());
+        companyService.getCompaniesWithPagination(page, pageSize);
+
+        Mockito.verify(companyRepository, Mockito.times(1))
+                .findAll(PageRequest.of(page, pageSize));
     }
 
     @Test
