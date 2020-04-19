@@ -81,17 +81,11 @@ public class CompanyControllerTest {
 
     @Test
     public void should_add_new_company_successfully_when_given_new_company() {
-        Company newCompany = new Company(4, "leocompany4", 0, new ArrayList<>());
+        Company newCompany = new Company(1, "leocompany1", 0, new ArrayList<>());
 
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .body(newCompany)
-                .when()
-                .post("/companies");
+        companyService.createCompanies(newCompany);
 
-        Assert.assertEquals(HttpStatus.CREATED, mvcResponse.getStatusCode());
-        Assert.assertEquals(4, this.oldController.getCompanies().size());
-        Assert.assertEquals(4, this.oldController.getCompanies().get(3).getId().intValue());
-        Assert.assertEquals("leocompany4", this.oldController.getCompanies().get(3).getName());
+        Mockito.verify(companyRepository, Mockito.times(1)).save(Mockito.any(Company.class));
     }
 
     @Test

@@ -48,7 +48,7 @@ public class CompanyService {
         companyRepository.deleteById(companyId);
     }
 
-    public void addCompanies(Company company) {
+    public void createCompanies(Company company) {
         companyRepository.save(company);
     }
 }
