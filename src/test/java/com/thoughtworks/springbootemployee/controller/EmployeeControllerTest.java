@@ -31,7 +31,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_specified_employee_when_given_employeeID() {
-        employeeService.getEmployeeById(2);
+        int employeeId = 2;
+
+        employeeService.getEmployeeById(employeeId);
 
         Mockito.verify(employeeRepository, Mockito.times(1)).findById(2);
     }
@@ -47,7 +49,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_delete_employee_successfully_when_given_an_employee() {
-        employeeService.deleteEmployees(2);
+        int employeeId = 2;
+
+        employeeService.deleteEmployees(employeeId);
 
         Mockito.verify(employeeRepository, Mockito.times(1)).deleteById(2);
     }
@@ -66,7 +70,9 @@ public class EmployeeControllerTest {
 
     @Test
     public void should_return_all_male_employees_when_given_gender_is_male() {
-        employeeService.getEmployeeByGender("male");
+        String gender = "male";
+
+        employeeService.getEmployeeByGender(gender);
 
         Mockito.verify(employeeRepository, Mockito.times(1)).findAllByGender("male");
     }

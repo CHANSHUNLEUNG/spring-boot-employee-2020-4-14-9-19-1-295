@@ -53,16 +53,21 @@ public class CompanyControllerTest {
 
     @Test
     public void should_return_specified_company_when_given_employeeId() {
-        companyService.getCompanyById(2);
+        int companyID = 2;
+
+        companyService.getCompanyById(companyID);
 
         Mockito.verify(companyRepository, Mockito.times(1)).findById(2);
     }
 
     @Test
     public void should_return_all_employees_of_a_company_when_given_companyId() {
-        companyService.getCompanyById(2);
+        int companyID = 2;
 
-        Mockito.verify(companyRepository, Mockito.times(1)).findById(2);
+        Mockito.when(companyRepository.findById(Mockito.any(Integer.class))).thenReturn(Optional.of(new Company()));
+        companyService.getEmployeesInCompany(companyID);
+
+        Mockito.verify(companyRepository, Mockito.times(1)).findById(companyID);
     }
 
     @Test
@@ -103,6 +108,7 @@ public class CompanyControllerTest {
 
     @Test
     public void should_delete_company_successfully_when_given_existing_id() {
+
         int existingId = 2;
         MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
                 .when()
