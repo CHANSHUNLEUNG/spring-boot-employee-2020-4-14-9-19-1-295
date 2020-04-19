@@ -35,13 +35,17 @@ public class CompanyService {
         return companyRepository.findAll(PageRequest.of(page, pageSize)).getContent();
     }
 
-    public boolean updateCompanies(int companyId, Company newCompany) {
+    public void updateCompanies(int companyId, Company newCompany) {
         Company targetCompany = companyRepository.findById(companyId).orElse(null);
         if (targetCompany == null) {
-            return false;
+            return;
         }
+
+        targetCompany.setName(newCompany.getName());
+        targetCompany.setEmployees(newCompany.getEmployees());
+        targetCompany.setEmployeesNumber(newCompany.getEmployeesNumber());
+
         companyRepository.save(newCompany);
-        return true;
     }
 
     public void deleteCompanies(int companyId) {

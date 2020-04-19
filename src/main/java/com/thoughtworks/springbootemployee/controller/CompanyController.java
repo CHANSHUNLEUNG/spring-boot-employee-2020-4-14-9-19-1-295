@@ -48,10 +48,6 @@ public class CompanyController {
 
     @PutMapping(path = "/{companyId}")
     public ResponseEntity<Object> updateCompanies(@PathVariable int companyId, @RequestBody Company newCompany) {
-        boolean isUpdate = companyService.updateCompanies(companyId, newCompany);
-        if (!isUpdate) {
-            return new ResponseEntity<>("Error, company is not exist.", HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(newCompany, HttpStatus.OK);
     }
 

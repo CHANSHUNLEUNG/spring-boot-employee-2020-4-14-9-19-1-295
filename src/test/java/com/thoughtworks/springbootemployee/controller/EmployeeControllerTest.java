@@ -60,7 +60,6 @@ public class EmployeeControllerTest {
         Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.of(oldEmployee));
 
         employeeService.updateEmployees(1, newEmployee);
-        oldEmployee.setAge(newEmployee.getAge());
 
         Mockito.verify(employeeRepository, Mockito.times(1)).save(Mockito.any(Employee.class));
     }

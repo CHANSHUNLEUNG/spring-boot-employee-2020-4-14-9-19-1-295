@@ -32,7 +32,7 @@ public class EmployeeService {
             return;
         }
         existingEmployee.setName(newEmployee.getName());
-//        existingEmployee.setAge(newEmployee.getAge());
+        existingEmployee.setAge(newEmployee.getAge());
         existingEmployee.setCompanyId(newEmployee.getCompanyId());
         existingEmployee.setGender(newEmployee.getGender());
         existingEmployee.setSalary(newEmployee.getSalary());

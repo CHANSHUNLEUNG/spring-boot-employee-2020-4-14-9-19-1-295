@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
@@ -90,17 +91,14 @@ public class CompanyControllerTest {
 
     @Test
     public void should_update_company_successfully_when_given_existing_company() {
+        Company oldCompany = new Company(2, "leocompany2", 0, new ArrayList<>());
         Company newCompany = new Company(2, "leocompany20", 0, new ArrayList<>());
-        int existingId = 2;
 
-        MockMvcResponse mvcResponse = given().contentType(ContentType.JSON)
-                .body(newCompany)
-                .when()
-                .put("/companies/" + existingId);
+        Mockito.when(companyRepository.findById(2)).thenReturn(Optional.of(oldCompany));
 
-        Assert.assertEquals(HttpStatus.OK, mvcResponse.getStatusCode());
-        Assert.assertEquals(2, this.oldController.getCompanies().get(1).getId().intValue());
-        Assert.assertEquals("leocompany20", this.oldController.getCompanies().get(1).getName());
+        companyService.updateCompanies(2, newCompany);
+
+        Mockito.verify(companyRepository,Mockito.times(1)).save(Mockito.any(Company.class));
     }
 
     @Test
