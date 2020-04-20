@@ -50,11 +50,7 @@ public class CompanyService {
     }
 
     public void deleteEmployeesInCompany(int companyId) {
-        Company targetCompany = companyRepository.findById(companyId).orElse(null);
-        if (targetCompany == null) {
-            return;
-        }
-        targetCompany.setEmployees(new ArrayList<>());
+        companyRepository.deleteEmployeesInCompany(companyId);
     }
 
     public void createCompanies(Company company) {
