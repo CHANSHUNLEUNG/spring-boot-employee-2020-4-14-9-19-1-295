@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -69,7 +69,7 @@ public class CompanyControllerTest {
         int page = 2;
         int pageSize = 2;
 
-        Page<Company> pagedCompanies = Mockito.mock(Page.class);
+        PageImpl<Company> pagedCompanies = Mockito.mock(PageImpl.class);
         Mockito.when(companyRepository.findAll(Mockito.any(Pageable.class))).thenReturn(pagedCompanies);
         Mockito.when(pagedCompanies.getContent()).thenReturn(null);
 
@@ -105,7 +105,7 @@ public class CompanyControllerTest {
         int companyId = 2;
 
         Mockito.when(companyRepository.findById(2)).thenReturn(Optional.of(
-                new Company(2,"leocompany1",1,new ArrayList<>())
+                new Company(2, "leocompany1", 1, new ArrayList<>())
         ));
         companyService.deleteEmployeesInCompany(companyId);
 

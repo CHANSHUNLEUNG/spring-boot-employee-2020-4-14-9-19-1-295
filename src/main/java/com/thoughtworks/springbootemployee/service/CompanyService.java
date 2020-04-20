@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,6 +28,7 @@ public class CompanyService {
 
     public List<Employee> getEmployeesInCompany(int companyID) {
         Company targetCompany = companyRepository.findById(companyID).orElse(null);
+        assert targetCompany != null;
         return targetCompany.getEmployees();
     }
 

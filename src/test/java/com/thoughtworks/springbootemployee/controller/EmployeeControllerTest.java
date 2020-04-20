@@ -18,9 +18,9 @@ import java.util.Optional;
 @SpringBootTest
 public class EmployeeControllerTest {
 
-    EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+    private EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
 
-    EmployeeService employeeService = new EmployeeService(employeeRepository);
+    private EmployeeService employeeService = new EmployeeService(employeeRepository);
 
     @Test
     public void should_return_all_employees_successfully() {

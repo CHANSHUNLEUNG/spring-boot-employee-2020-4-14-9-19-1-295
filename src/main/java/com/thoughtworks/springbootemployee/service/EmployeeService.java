@@ -27,7 +27,7 @@ public class EmployeeService {
     }
 
     public void updateEmployees(int employeeId, Employee newEmployee) {
-        Employee existingEmployee = employeeRepository.findById(new Integer(employeeId)).orElse(null);
+        Employee existingEmployee = employeeRepository.findById(employeeId).orElse(null);
         if (existingEmployee == null) {
             return;
         }
@@ -45,7 +45,7 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(int employeeId) {
-        return employeeRepository.findById(new Integer(employeeId)).orElse(null);
+        return employeeRepository.findById(employeeId).orElse(null);
     }
 
     public List<Employee> getEmployeeByGender(String gender) {
