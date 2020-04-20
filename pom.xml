@@ -60,6 +60,10 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -88,6 +92,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<configuration>
+					<url>jdbc:h2:C:\Users\Leo\Desktop\working\tatptraining\homework\hw0415\spring-boot-employee-2020-4-14-9-19-1-295\mytestdb</url>
+					<user>sa</user>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

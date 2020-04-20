@@ -105,10 +105,11 @@ public class CompanyControllerTest {
         int companyId = 2;
 
         Mockito.when(companyRepository.findById(2)).thenReturn(Optional.of(
-                new Company(1,"leocompany1",1,new ArrayList<>())
+                new Company(2,"leocompany1",1,new ArrayList<>())
         ));
         companyService.deleteEmployeesInCompany(companyId);
 
-        Mockito.verify(companyRepository, Mockito.times(1)).findById(companyId);
+        Mockito.verify(companyRepository, Mockito.times(1))
+                .deleteEmployeesInCompany(companyId);
     }
 }

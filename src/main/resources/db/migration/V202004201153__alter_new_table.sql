@@ -1,0 +1,1 @@
+ALTER TABLE my_new_table ALTER COLUMN id VARCHAR(255);
