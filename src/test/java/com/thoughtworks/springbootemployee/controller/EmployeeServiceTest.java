@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EmployeeControllerTest {
+public class EmployeeServiceTest {
 
     private EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
 

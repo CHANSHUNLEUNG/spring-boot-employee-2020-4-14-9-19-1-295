@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CompanyControllerTest {
+public class CompanyServiceTest {
 
     @Autowired
     private CompanyController oldController;
