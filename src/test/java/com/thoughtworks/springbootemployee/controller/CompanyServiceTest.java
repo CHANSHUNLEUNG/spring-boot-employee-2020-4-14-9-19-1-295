@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -69,7 +70,7 @@ public class CompanyServiceTest {
         int page = 2;
         int pageSize = 2;
 
-        PageImpl<Company> pagedCompanies = Mockito.mock(PageImpl.class);
+        Page<Company> pagedCompanies = Mockito.mock(Page.class);
         Mockito.when(companyRepository.findAll(Mockito.any(Pageable.class))).thenReturn(pagedCompanies);
         Mockito.when(pagedCompanies.getContent()).thenReturn(null);
 
