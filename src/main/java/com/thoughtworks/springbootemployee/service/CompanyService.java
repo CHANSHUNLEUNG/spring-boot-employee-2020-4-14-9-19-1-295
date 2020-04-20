@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,8 +49,12 @@ public class CompanyService {
         companyRepository.save(newCompany);
     }
 
-    public void deleteCompanies(int companyId) {
-        companyRepository.deleteById(companyId);
+    public void deleteEmployeesInCompany(int companyId) {
+        Company targetCompany = companyRepository.findById(companyId).orElse(null);
+        if (targetCompany == null) {
+            return;
+        }
+        targetCompany.setEmployees(new ArrayList<>());
     }
 
     public void createCompanies(Company company) {

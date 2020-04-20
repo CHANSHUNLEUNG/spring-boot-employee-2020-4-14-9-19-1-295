@@ -101,11 +101,14 @@ public class CompanyControllerTest {
     }
 
     @Test
-    public void should_delete_company_successfully_when_given_existing_id() {
+    public void should_delete_employees_in_company_successfully_when_given_existing_id() {
         int companyId = 2;
 
-        companyService.deleteCompanies(companyId);
+        Mockito.when(companyRepository.findById(2)).thenReturn(Optional.of(
+                new Company(1,"leocompany1",1,new ArrayList<>())
+        ));
+        companyService.deleteEmployeesInCompany(companyId);
 
-        Mockito.verify(companyRepository, Mockito.times(1)).deleteById(companyId);
+        Mockito.verify(companyRepository, Mockito.times(1)).findById(companyId);
     }
 }
